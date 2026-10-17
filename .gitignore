@@ -1,0 +1,17 @@
+# 빌드 산출물. 단, 게임 실행 폴더의 스킨은 한국어화 수정본이 여기에만 있으므로 추적한다
+src/obj/
+src/bin/*
+!src/bin/Debug/
+src/bin/Debug/*
+!src/bin/Debug/net472/
+src/bin/Debug/net472/*
+!src/bin/Debug/net472/skin/
+*.bak
+*_backup.png
+
+# 로컬 작업 기록 (빌드·디컴파일 로그에 로컬 경로가 들어 있음)
+logs/
+.reatool/
+
+.vs/
+*.user

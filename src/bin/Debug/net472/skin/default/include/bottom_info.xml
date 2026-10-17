@@ -1,0 +1,1327 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- bottom_info -->
+
+<skin type="include">
+  <body>
+    
+    <!-- bottom_info -->
+    <group id="bottom_info" dst_timer="load_complete" loop="0">
+
+      <!-- bg -->
+      <image texture="common_bg" x="163" y="0" width="1" height="61" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="0" width="800" height ="61" alpha="255" />
+      </image>
+
+      <!-- title -->
+      <text font="common" value="genre" align="left" overflow="stretch" dst_timer="load_complete" loop="0" filter="linear">
+        <dst time="0" x="4" y="0" width="380" height ="22" alpha="255" />
+      </text>
+      <text font="title" value="title_with_subtitle" align="left" overflow="stretch" dst_timer="load_complete" loop="0" filter="linear">
+        <dst time="0" x="4" y="16" width="380" height ="28" alpha="255" />
+      </text>
+      <text font="common" value="artist_with_subartist" align="left" overflow="stretch" dst_timer="load_complete" loop="0" filter="linear">
+        <dst time="0" x="4" y="39" width="380" height ="22" alpha="255" />
+      </text>
+
+      <!-- music_time -->
+      <group id="music_time" dst_timer="load_complete" loop="0">
+
+        <!-- elapsed_time -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="elapsed_music_time_minutes" align="left" digit="2">
+          <dst time="0" x="0" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="28" y="41" width="5" height="13" dst_timer="load_complete" loop="0">
+          <dst time="0" x="31" y="0" width="5" height ="13" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="27" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="elapsed_music_time_seconds" align="left" digit="2">
+          <dst time="0" x="37" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <image texture="num" x="6" y="41" width="10" height="13" dst_timer="load_complete" loop="0">
+          <dst time="0" x="70" y="0" width="10" height ="13" alpha="255" />
+        </image>
+
+        <!-- total_time -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_music_time_minutes" align="left" digit="2">
+          <dst time="0" x="83" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="28" y="41" width="5" height="13" dst_timer="load_complete" loop="0">
+          <dst time="0" x="114" y="0" width="5" height ="13" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="27" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_music_time_seconds" align="left" digit="2">
+          <dst time="0" x="120" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="390" y="5" />
+      </group>
+
+      <!-- judge_timing -->
+      <group id="judge_timing" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="255" y="478" width="26" height="15" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="26" height ="15" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="105" width="120" height="22" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="judge_timing" align="left" digit="3">
+          <dst time="0" x="40" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="common_bg" x="491" y="166" width="13" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="83" y="2" width="13" height ="7" alpha="255" />
+        </image>
+
+        <!-- button_minus -->
+        <button id="judge_timing_down" command="judge_timing_down(1)" keyrepeat="true">
+
+          <!-- bg -->
+          <image texture="common_bg" x="466" y="90" width="9" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- hover -->
+          <!-- in -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="0" />
+            <dst time="100" alpha="255" />
+          </image>
+          <!-- out -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_out" loop="-1" condition="!button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+            <dst time="100" alpha="0" />
+          </image>
+
+          <!-- pressed -->
+          <image texture="common_bg" x="486" y="90" width="9" height="9" dst_timer="load_complete" loop="0" condition="button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- label -->
+          <image texture="common_bg" x="466" y="102" width="5" height="1" dst_timer="load_complete" loop="0">
+            <dst time="0" x="3" y="5" width="5" height ="1" alpha="255" />
+          </image>
+
+          <dst time="0" x="97" y="0" width="11" height ="11" />
+        </button>
+
+        <!-- button_plus -->
+        <button id="judge_timing_up" command="judge_timing_up(1)" keyrepeat="true">
+          <!-- bg -->
+          <image texture="common_bg" x="466" y="90" width="9" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- hover -->
+          <!-- in -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="0" />
+            <dst time="100" alpha="255" />
+          </image>
+          <!-- out -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_out" loop="-1" condition="!button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+            <dst time="100" alpha="0" />
+          </image>
+
+          <!-- pressed -->
+          <image texture="common_bg" x="486" y="90" width="9" height="9" dst_timer="load_complete" loop="0" condition="button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- label -->
+          <image texture="common_bg" x="473" y="100" width="5" height="5" dst_timer="load_complete" loop="0">
+            <dst time="0" x="3" y="3" width="5" height ="5" alpha="255" />
+          </image>
+
+          <dst time="0" x="108" y="0" width="11" height ="11" />
+        </button>
+
+        <dst time="0" x="570" y="6" />
+      </group>
+
+      <!-- bar -->
+      <group id="bar_count" dst_timer="load_complete" loop="0">
+
+        <!-- label -->
+        <image texture="common_bg" x="294" y="438" width="21" height="15" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="21" height ="15" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="current_bars" align="left" digit="3">
+          <dst time="0" x="25" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="126" y="82" width="8" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="57" y="0" width="8" height ="11" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_bars" align="left" digit="3">
+          <dst time="0" x="67" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="693" y="6" />
+      </group>
+
+      <!-- music_position -->
+      <group id="music_position" dst_timer="load_complete" loop="0">
+        <image texture="common_bg" x="0" y="420" width="400" height="4" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="400" height ="4" alpha="255" />
+        </image>
+        <bargraph texture="common_bg" x="0" y="425" width="400" height="3" dst_timer="load_complete" loop="0" value="music_time_position" direction="right" max="100" min="0" img_mode="stretch">
+          <dst time="0" x="0" y="3" width="400" height ="4" alpha="255" />
+        </bargraph>
+        <trackbar id="music_position_trackbar" dst_timer="load_complete" loop="0" value="music_time_position" max="100" min="0" start="top_left" end="top_right" apply="release">
+          <trackbar_thumb dst_timer="load_complete" loop="0">
+            <image texture="common_bg" x="169" y="14" width="9" height="4" dst_timer="load_complete" loop="0" >
+              <dst time="0" x="0" y="3" width="9" height ="4" r="192" g="192" b="192" alpha="255" />
+            </image>
+            <image texture="common_bg" x="165" y="10" width="17" height="12" dst_timer="bpm" loop="0" blend="additive">
+              <dst time="0" x="-4" y="-1" width="17" height ="12" alpha="128" />
+              <dst time="750" alpha="0" />
+              <dst time="1000" alpha="0" />
+            </image>
+            <image texture="common_bg" x="165" y="10" width="17" height="12" dst_timer="trackbar_mouse_enter" condition="trackbar_mouse_hover, !trackbar_mouse_down" loop="100" blend="additive">
+              <dst time="0" x="-4" y="-1" width="17" height="12" alpha="0" />
+              <dst time="100" alpha="192" />
+            </image>
+            <image texture="common_bg" x="165" y="10" width="17" height="12" dst_timer="trackbar_mouse_out" condition="!trackbar_mouse_hover, !trackbar_mouse_down" loop="100" blend="additive">
+              <dst time="0" x="-4" y="-1" width="17" height="12" alpha="192" />
+              <dst time="100" alpha="0" />
+            </image>
+            <image texture="common_bg" x="165" y="10" width="17" height="12" dst_timer="trackbar_mouse_down" condition="trackbar_mouse_down" loop="0" blend="additive">
+              <dst time="0" x="-4" y="-1" width="17" height="12" alpha="255" />
+            </image>
+            <dst time="0" x="0" y="0" width="9" height ="10" />
+          </trackbar_thumb>
+          <dst time="0" x="0" y="0" width="400" height ="10" />
+        </trackbar>
+
+        <dst time="0" x="390" y="18" />
+      </group>
+
+      <!-- hs -->
+      <group id="hs_info" dst_timer="load_complete" loop="0">
+
+        <panel id="hs_panel" panel_group="main">
+          <image texture="common_bg" x="163" y="128" width="75" height="89" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="0" width="75" height ="89" alpha="255" />
+          </image>
+
+          <!-- base -->
+          <button id="hs_panel_close" command="panel_close(hs_panel)">
+            <dst time="0" x="0" y="0" width="75" height ="89" />
+          </button>
+
+          <!-- normal -->
+          <button id="hs_panel_button_normal" command="hsfix_set(normal)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_off, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="4" y="478" width="38" height="15" dst_timer="load_complete" loop="0">
+              <dst time="0" x="12" y="2" width="45" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="3" width="69" height ="11" />
+          </button>
+
+          <!-- maxfix -->
+          <button id="hs_panel_button_maxfix" command="hsfix_set(maxfix)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_max, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="46" y="478" width="37" height="15" dst_timer="load_complete" loop="0">
+              <dst time="0" x="9" y="2" width="51" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="14" width="69" height ="11" />
+          </button>
+
+          <!-- minfix -->
+          <button id="hs_panel_button_maxfix" command="hsfix_set(minfix)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_min, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="239" y="168" width="47" height="7" dst_timer="load_complete" loop="0">
+              <dst time="0" x="11" y="2" width="47" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="25" width="69" height ="11" />
+          </button>
+
+          <!-- main_notes -->
+          <button id="hs_panel_button_main_notes" command="hsfix_set(main_notes)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_main_notes, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="128" y="478" width="39" height="15" dst_timer="load_complete" loop="0">
+              <dst time="0" x="7" y="2" width="55" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="36" width="69" height ="11" />
+          </button>
+
+          <!-- main_time -->
+          <button id="hs_panel_button_main_time" command="hsfix_set(main_time)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_main_time, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="239" y="184" width="52" height="7" dst_timer="load_complete" loop="0">
+              <dst time="0" x="9" y="2" width="52" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="47" width="69" height ="11" />
+          </button>
+
+          <!-- regular_speed -->
+          <button id="hs_panel_button_regular_speed" command="hsfix_set(regular_speed)" fallthrough="true">
+            <!-- selected -->
+            <image texture="common_bg" x="239" y="140" width="1" height="1" dst_timer="load_complete" loop="0" condition="hs_fix_regular_speed, !button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- hover -->
+            <image texture="common_bg" x="239" y="128" width="1" height="1" dst_timer="load_complete" loop="0" condition="button_mouse_hover">
+              <dst time="0" x="0" y="0" width="69" height ="11" alpha="255" />
+            </image>
+            <!-- label -->
+            <image texture="common_bg" x="214" y="478" width="37" height="15" dst_timer="load_complete" loop="0">
+              <dst time="0" x="7" y="2" width="55" height ="7" alpha="255" />
+            </image>
+
+            <dst time="0" x="3" y="58" width="69" height ="11" />
+          </button>
+
+          <panel_dst state="open" dst_timer="panel_open" loop="100">
+            <dst time="0" x="0" y="-75" width="75" height ="89" alpha="0" />
+            <dst time="100" alpha="255" />
+          </panel_dst>
+
+          <panel_dst state="close" dst_timer="panel_close" loop="-1">
+            <dst time="0" x="0" y="-75" width="75" height ="89" alpha="255" />
+            <dst time="100" alpha="0" />
+          </panel_dst>
+        </panel>
+
+        <button id="hs_panel_action" command="panel_action(hs_panel)">
+          <!-- hover -->
+          <image texture="common_bg" x="466" y="120" width="7" height="3" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover, $_panel[hs_panel][close]">
+            <dst time="0" x="5" y="4" width="7" height ="3" alpha="128" />
+            <dst time="100" alpha="192" />
+          </image>
+
+          <!-- out -->
+          <image texture="common_bg" x="466" y="120" width="7" height="3" dst_timer="button_mouse_out" loop="100" condition="!button_mouse_hover, $_panel[hs_panel][close]">
+            <dst time="0" x="5" y="4" width="7" height ="3" alpha="192" />
+            <dst time="100" alpha="128" />
+          </image>
+          <image texture="common_bg" x="466" y="120" width="7" height="3" dst_timer="load_complete" loop="0" condition="button_initial, $_panel[hs_panel][close]">
+            <dst time="0" x="5" y="4" width="7" height ="3" alpha="128" />
+          </image>
+
+          <!-- open -->
+          <image texture="common_bg" x="476" y="120" width="7" height="3" dst_timer="load_complete" loop="0" condition="$_panel[hs_panel][open]">
+            <dst time="0" x="5" y="4" width="7" height ="3" alpha="192" />
+          </image>
+
+          <!-- label -->
+          <image texture="common_bg" x="4" y="478" width="38" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_off">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+          <image texture="common_bg" x="46" y="478" width="37" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_max">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+          <image texture="common_bg" x="87" y="478" width="37" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_min">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+          <image texture="common_bg" x="128" y="478" width="39" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_main_notes">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+          <image texture="common_bg" x="171" y="478" width="39" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_main_time">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+          <image texture="common_bg" x="214" y="478" width="37" height="15" dst_timer="load_complete" loop="0" condition="hs_fix_regular_speed">
+            <dst time="0" x="15" y="2" width="55" height ="7" alpha="255" />
+          </image>
+
+          <dst time="0" x="0" y="0" width="75" height ="14" />
+        </button>
+
+        <!-- value -->
+        <image texture="num" x="135" y="86" width="8" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="75" y="4" width="8" height ="7" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="82" width="100" height="11" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_hs" align="right" digit="2">
+          <dst time="0" x="84" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="121" y="90" width="4" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="104" y="8" width="4" height ="3" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="105" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="1p_hs_point" align="left" digit="2">
+          <dst time="0" x="108" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <!-- button_minus -->
+        <button id="hs_down" command="hs_down(0.05)" keyrepeat="true">
+
+          <!-- bg -->
+          <image texture="common_bg" x="466" y="90" width="9" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- hover -->
+          <!-- in -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="0" />
+            <dst time="100" alpha="255" />
+          </image>
+          <!-- out -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_out" loop="-1" condition="!button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+            <dst time="100" alpha="0" />
+          </image>
+
+          <!-- pressed -->
+          <image texture="common_bg" x="486" y="90" width="9" height="9" dst_timer="load_complete" loop="0" condition="button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- label -->
+          <image texture="common_bg" x="466" y="102" width="5" height="1" dst_timer="load_complete" loop="0">
+            <dst time="0" x="3" y="5" width="5" height ="1" alpha="255" />
+          </image>
+
+          <dst time="0" x="132" y="0" width="11" height ="11" />
+        </button>
+
+        <!-- trackbar -->
+        <group id="hs_trackbar" dst_timer="load_complete" loop="0">
+
+          <!-- bg -->
+          <image texture="common_bg" x="267" y="10" width="80" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="0" width="80" height ="9" alpha="255" />
+          </image>
+
+          <!-- body -->
+          <trackbar id="hs_trackbar_body" dst_timer="load_complete" loop="0" value="1p_hs" max="8" min="0.5" start="top_left" end="top_right" apply="drag" step="0.1">
+            <trackbar_thumb dst_timer="load_complete" loop="0">
+              <image texture="common_bg" x="183" y="10" width="5" height="8" dst_timer="load_complete" loop="0" >
+                <dst time="0" x="0" y="2" width="5" height ="8" alpha="255" />
+              </image>
+              <dst time="0" x="0" y="0" width="5" height ="12" />
+            </trackbar_thumb>
+            <dst time="0" x="0" y="1" width="80" height ="12" />
+          </trackbar>
+
+          <dst time="0" x="145" y="0" />
+        </group>
+
+        <!-- button_plus -->
+        <button id="hs_up" command="hs_up(0.05)" keyrepeat="true">
+          <!-- bg -->
+          <image texture="common_bg" x="466" y="90" width="9" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- hover -->
+          <!-- in -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="0" />
+            <dst time="100" alpha="255" />
+          </image>
+          <!-- out -->
+          <image texture="common_bg" x="476" y="90" width="9" height="9" dst_timer="button_mouse_out" loop="-1" condition="!button_mouse_hover, !button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+            <dst time="100" alpha="0" />
+          </image>
+
+          <!-- pressed -->
+          <image texture="common_bg" x="486" y="90" width="9" height="9" dst_timer="load_complete" loop="0" condition="button_pressed">
+            <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+          </image>
+
+          <!-- label -->
+          <image texture="common_bg" x="473" y="100" width="5" height="5" dst_timer="load_complete" loop="0">
+            <dst time="0" x="3" y="3" width="5" height ="5" alpha="255" />
+          </image>
+
+          <dst time="0" x="227" y="0" width="11" height ="11" />
+        </button>
+
+        <dst time="0" x="386" y="29" />
+      </group>
+
+      <!-- music_speed -->
+      <group id="music_speed" dst_timer="load_complete" loop="0">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="132" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- trackbar -->
+        <group id="music_speed_trackbar" dst_timer="load_complete" loop="0">
+
+          <!-- bg -->
+          <image texture="common_bg" x="189" y="10" width="77" height="9" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="0" width="77" height ="9" alpha="255" />
+          </image>
+
+          <!-- body -->
+          <trackbar id="music_speed_trackbar_body" dst_timer="load_complete" loop="0" value="music_speed_level" max="12" min="-12" start="top_left" end="top_right" apply="release" step="1">
+            <trackbar_thumb dst_timer="load_complete" loop="0">
+              <image texture="common_bg" x="183" y="10" width="5" height="8" dst_timer="load_complete" loop="0" >
+                <dst time="0" x="0" y="2" width="5" height ="8" alpha="255" />
+              </image>
+              <dst time="0" x="0" y="0" width="5" height ="12" />
+            </trackbar_thumb>
+            <dst time="0" x="0" y="1" width="77" height ="12" />
+          </trackbar>
+
+          <dst time="0" x="34" y="0" />
+        </group>
+
+        <!-- value -->
+        <number texture="num" x="0" y="105" width="120" height="22" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="$_trackbar[music_speed_trackbar_body]" align="left" digit="2">
+          <dst time="0" x="113" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="647" y="29" />
+      </group>
+
+      <!-- volume -->
+      <group id="volume_group" dst_timer="load_complete" loop="0">
+
+        <!-- master -->
+        <group id="volume_master" dst_timer="load_complete" loop="0">
+
+          <!-- label -->
+          <image texture="common_bg" x="322" y="172" width="21" height="7" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="2" width="21" height ="7" alpha="255" />
+          </image>
+
+          <!-- mute_button -->
+          <button id="volume_master_mute" command="volume_master_mute" keyrepeat="false">
+
+            <!-- 100-70 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_100, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_100, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_100, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_90, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_90, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_90, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_80, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_80, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_80, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_70, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_70, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_70, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 69-30 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_60, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_60, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_60, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_50, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_50, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_50, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_40, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_40, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_40, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_30, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_30, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_30, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 29-1 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_20, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_20, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_20, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_10, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_10, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_10, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_1, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_1, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_1, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 0 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="load_complete" loop="0" condition="!volume_master_mute, volume_master_0, button_initial">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_master_mute, volume_master_0, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_master_mute, volume_master_0, button_mouse_out">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- mute -->
+            <!-- bg -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="volume_master_mute, button_initial">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="volume_master_mute, button_mouse_hover">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="volume_master_mute, button_mouse_out">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <dst time="0" x="23" y="0" width="14" height ="11" />
+          </button>
+
+          <!-- trackbar -->
+          <group id="volume_master_trackbar" dst_timer="load_complete" loop="0">
+
+            <!-- bg -->
+            <image texture="common_bg" x="348" y="11" width="105" height="8" dst_timer="load_complete" loop="0">
+              <dst time="0" x="0" y="1" width="105" height ="8" alpha="255" />
+            </image>
+
+            <!-- body -->
+            <trackbar id="volume_master_trackbar_body" dst_timer="load_complete" loop="0" value="volume_master" max="100" min="0" start="top_left" end="top_right" apply="drag" step="1">
+              <trackbar_thumb dst_timer="load_complete" loop="0">
+                <image texture="common_bg" x="183" y="10" width="5" height="8" dst_timer="load_complete" loop="0" >
+                  <dst time="0" x="0" y="2" width="5" height ="8" alpha="255" />
+                </image>
+                <dst time="0" x="0" y="0" width="5" height ="12" />
+              </trackbar_thumb>
+              <dst time="0" x="0" y="1" width="105" height ="12" />
+            </trackbar>
+
+            <dst time="0" x="38" y="1" />
+          </group>
+
+          <!-- value -->
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_master" align="right" digit="3" condition="!volume_master_mute">
+            <dst time="0" x="145" y="0" width="10" height ="11" alpha="255" />
+          </number>
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_master" align="right" digit="3" condition="volume_master_mute">
+            <dst time="0" x="145" y="0" width="10" height ="11" alpha="64" />
+          </number>
+
+          <dst time="0" x="0" y="4" />
+        </group>
+
+        <!-- key -->
+        <group id="volume_key" dst_timer="load_complete" loop="0">
+
+          <!-- label -->
+          <image texture="common_bg" x="322" y="180" width="19" height="7" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+          </image>
+
+          <!-- mute_button -->
+          <button id="volume_key_mute" command="volume_key_mute" keyrepeat="false">
+
+            <!-- 100-70 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_100, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_100, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_100, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_90, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_90, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_90, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_80, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_80, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_80, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_70, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_70, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_70, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 69-30 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_60, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_60, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_60, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_50, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_50, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_50, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_40, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_40, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_40, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_30, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_30, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_30, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 29-1 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_20, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_20, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_20, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_10, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_10, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_10, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_1, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_1, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_1, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 0 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="load_complete" loop="0" condition="!volume_key_mute, volume_key_0, button_initial">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_key_mute, volume_key_0, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_key_mute, volume_key_0, button_mouse_out">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- mute -->
+            <!-- bg -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="volume_key_mute, button_initial">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="volume_key_mute, button_mouse_hover">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="volume_key_mute, button_mouse_out">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <dst time="0" x="21" y="0" width="14" height ="11" />
+          </button>
+
+          <!-- value -->
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_key" align="right" digit="3" condition="!volume_key_mute">
+            <dst time="0" x="38" y="0" width="10" height ="11" alpha="255" />
+          </number>
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_key" align="right" digit="3" condition="volume_key_mute">
+            <dst time="0" x="38" y="0" width="10" height ="11" alpha="64" />
+          </number>
+
+          <dst time="0" x="185" y="4" />
+        </group>
+
+        <!-- bgm -->
+        <group id="volume_bgm" dst_timer="load_complete" loop="0">
+          <!-- label -->
+          <image texture="common_bg" x="342" y="180" width="19" height="7" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+          </image>
+
+          <!-- mute_button -->
+          <button id="volume_bgm_mute" command="volume_bgm_mute" keyrepeat="false">
+
+            <!-- 100-70 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_100, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_100, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_100, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_90, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_90, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_90, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_80, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_80, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_80, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_70, button_initial">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_70, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="11" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_70, button_mouse_out">
+              <dst time="0" x="2" y="1" width="11" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 69-30 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_60, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_60, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_60, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_50, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_50, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_50, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_40, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_40, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_40, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_30, button_initial">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_30, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_30, button_mouse_out">
+              <dst time="0" x="2" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 29-1 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_20, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_20, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_20, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_10, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_10, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_10, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_1, button_initial">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_1, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="7" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_1, button_mouse_out">
+              <dst time="0" x="2" y="1" width="7" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- 0 -->
+            <!-- bg -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="load_complete" loop="0" condition="!volume_bgm_mute, volume_bgm_0, button_initial">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_enter" loop="100" condition="!volume_bgm_mute, volume_bgm_0, button_mouse_hover">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="466" y="108" width="5" height="9" dst_timer="button_mouse_out" loop="100" condition="!volume_bgm_mute, volume_bgm_0, button_mouse_out">
+              <dst time="0" x="2" y="1" width="5" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- mute -->
+            <!-- bg -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="load_complete" loop="0" condition="volume_bgm_mute, button_initial">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+            </image>
+            <!-- in -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_enter" loop="100" condition="volume_bgm_mute, button_mouse_hover">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="192" />
+              <dst time="100" alpha="255" />
+            </image>
+            <!-- out -->
+            <image texture="common_bg" x="480" y="108" width="9" height="9" dst_timer="button_mouse_out" loop="100" condition="volume_bgm_mute, button_mouse_out">
+              <dst time="0" x="1" y="1" width="9" height ="9" alpha="255" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <dst time="0" x="21" y="0" width="14" height ="11" />
+          </button>
+
+          <!-- value -->
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_bgm" align="right" digit="3" condition="!volume_bgm_mute">
+            <dst time="0" x="38" y="0" width="10" height ="11" alpha="255" />
+          </number>
+          <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="volume_bgm" align="right" digit="3" condition="volume_bgm_mute">
+            <dst time="0" x="38" y="0" width="10" height ="11" alpha="64" />
+          </number>
+
+          <dst time="0" x="263" y="4" />
+        </group>
+
+
+        <!-- key_bgm_trackbar -->
+        <group id="key_bgm_panel_group" dst_timer="load_complete" loop="0">
+          <panel id="key_bgm_panel" panel_group="main">
+            
+            <!-- base -->
+            <image texture="common_bg" x="163" y="72" width="141" height="42" dst_timer="load_complete" loop="0">
+              <dst time="0" x="0" y="0" width="141" height ="42" alpha="255" />
+            </image>            
+
+            <group id="key_trackbar" dst_timer="load_complete" loop="0">
+              <!-- label -->
+              <image texture="common_bg" x="322" y="180" width="19" height="7" dst_timer="load_complete" loop="0">
+                <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+              </image>
+
+              <!-- bg -->
+              <image texture="common_bg" x="165" y="117" width="105" height="8" dst_timer="load_complete" loop="0">
+                <dst time="0" x="24" y="0" width="105" height ="8" alpha="255" />
+              </image>
+
+              <!-- body -->
+              <trackbar id="key_trackbar_body" dst_timer="load_complete" loop="0" value="volume_key" max="100" min="0" start="top_left" end="top_right" apply="drag" step="1">
+                <trackbar_thumb dst_timer="load_complete" loop="0">
+                  <image texture="common_bg" x="183" y="10" width="5" height="8" dst_timer="load_complete" loop="0" >
+                    <dst time="0" x="0" y="2" width="5" height ="8" alpha="255" />
+                  </image>
+                  <dst time="0" x="0" y="0" width="5" height ="12" />
+                </trackbar_thumb>
+                <dst time="0" x="24" y="0" width="105" height ="12" />
+              </trackbar>
+
+              <dst time="0" x="6" y="7" />
+            </group>
+
+            <group id="bgm_trackbar" dst_timer="load_complete" loop="0">
+              <!-- label -->
+              <image texture="common_bg" x="342" y="180" width="19" height="7" dst_timer="load_complete" loop="0">
+                <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+              </image>
+
+              <!-- bg -->
+              <image texture="common_bg" x="165" y="117" width="105" height="8" dst_timer="load_complete" loop="0">
+                <dst time="0" x="24" y="0" width="105" height ="8" alpha="255" />
+              </image>
+
+              <!-- body -->
+              <trackbar id="bgm_trackbar_body" dst_timer="load_complete" loop="0" value="volume_bgm" max="100" min="0" start="top_left" end="top_right" apply="drag" step="1">
+                <trackbar_thumb dst_timer="load_complete" loop="0">
+                  <image texture="common_bg" x="183" y="10" width="5" height="8" dst_timer="load_complete" loop="0" >
+                    <dst time="0" x="0" y="2" width="5" height ="8" alpha="255" />
+                  </image>
+                  <dst time="0" x="0" y="0" width="5" height ="12" />
+                </trackbar_thumb>
+                <dst time="0" x="24" y="0" width="105" height ="12" />
+              </trackbar>
+
+              <dst time="0" x="6" y="25" />
+            </group>
+
+
+            <panel_dst state="open" dst_timer="panel_open" loop="100">
+              <dst time="0" x="-124" y="-42" width="141" height ="42" alpha="0" />
+              <dst time="100" alpha="255" />
+            </panel_dst>
+
+            <panel_dst state="close" dst_timer="panel_close" loop="-1">
+              <dst time="0" x="-124" y="-42" width="141" height ="42" alpha="255" />
+              <dst time="100" alpha="0" />
+            </panel_dst>
+          </panel>
+
+          <button id="key_bgm_panel_action" command="panel_action(key_bgm_panel)">
+            <!-- open -->
+            <image texture="common_bg" x="287" y="115" width="1" height="1" dst_timer="load_complete" loop="0" condition="$_panel[key_bgm_panel][open]">
+              <dst time="0" x="0" y="0" width="17" height ="18" alpha="255" />
+            </image>
+
+            <!-- hover -->
+            <image texture="common_bg" x="273" y="117" width="11" height="7" dst_timer="button_mouse_enter" loop="100" condition="button_mouse_hover">
+              <dst time="0" x="3" y="6" width="11" height ="7" alpha="128" />
+              <dst time="100" alpha="192" />
+            </image>
+
+            <!-- out -->
+            <image texture="common_bg" x="273" y="117" width="11" height="7" dst_timer="button_mouse_out" loop="100" condition="!button_mouse_hover">
+              <dst time="0" x="3" y="6" width="11" height ="7" alpha="192" />
+              <dst time="100" alpha="128" />
+            </image>
+            <image texture="common_bg" x="273" y="117" width="11" height="7" dst_timer="load_complete" loop="0" condition="button_initial">
+              <dst time="0" x="3" y="6" width="11" height ="7" alpha="128" />
+            </image>
+
+            <dst time="0" x="0" y="0" width="17" height ="18" />
+          </button>
+
+          <dst time="0" x="335" y="0" />
+        </group>
+
+        <dst time="0" x="438" y="43" />
+      </group>
+
+      <dst time="0" x="0" y="419" />
+    </group>
+    
+  </body>
+</skin>
+
+

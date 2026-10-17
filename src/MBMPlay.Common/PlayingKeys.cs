@@ -1,0 +1,37 @@
+namespace MBMPlay.Common;
+
+public enum PlayingKeys
+{
+	Player1Key1,
+	Player1Key2,
+	Player1Key3,
+	Player1Key4,
+	Player1Key5,
+	Player1Key6,
+	Player1Key7,
+	Player1Key8,
+	Player1Key9,
+	Player1ScratchLeft,
+	Player1ScratchRight,
+	Player1ScratchLeftRotary,
+	Player1ScratchRightRotary,
+	Player1ScratchToggle,
+	Player1Start,
+	Player1Select,
+	Player2Key1,
+	Player2Key2,
+	Player2Key3,
+	Player2Key4,
+	Player2Key5,
+	Player2Key6,
+	Player2Key7,
+	Player2Key8,
+	Player2Key9,
+	Player2ScratchLeft,
+	Player2ScratchRight,
+	Player2ScratchLeftRotary,
+	Player2ScratchRightRotary,
+	Player2ScratchToggle,
+	Player2Start,
+	Player2Select
+}

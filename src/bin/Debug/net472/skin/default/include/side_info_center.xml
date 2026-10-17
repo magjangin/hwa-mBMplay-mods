@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- side_info -->
+
+<skin type="include">
+  <body>
+
+    <!-- side_bga -->
+    <group id="side_bga" dst_timer="load_complete" loop="0">
+      <!-- bg -->
+      <image texture="common_bg" x="1" y="0" width="161" height="50" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="0" width="161" height ="50" alpha="255" />
+      </image>
+      <image texture="#black" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="50" width="161" height ="320" alpha="255" />
+      </image>
+      <image texture="common_bg" x="1" y="370" width="161" height="49" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="370" width="161" height ="49" alpha="255" />
+      </image>
+
+      <!-- bga -->
+      <bga dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="50" width="160" height ="160" alpha="255" />
+      </bga>
+      <bga dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="210" width="160" height ="160" alpha="255" />
+      </bga>
+
+      <dst time="0" x="0" y="0" />
+    </group>
+
+    <!-- side_info -->
+    <group id="side_info" dst_timer="load_complete" loop="0">
+      
+      <!-- bg -->
+      <image texture="common_bg" x="0" y="0" width="161" height="419" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="0" width="161" height ="419" alpha="255" />
+      </image>
+
+      <!-- playlevel -->
+      <group id="playlevel" dst_timer="load_complete" loop="0">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="100" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="15" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <!-- beginner / easy -->
+        <number texture="num" x="197" y="0" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="difficulty_1">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <!-- normal -->
+        <number texture="num" x="197" y="14" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="difficulty_2">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <!-- hyper -->
+        <number texture="num" x="197" y="28" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="difficulty_3">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <!-- another / ex -->
+        <number texture="num" x="197" y="42" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="difficulty_4">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <!-- insane -->
+        <number texture="num" x="197" y="56" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="difficulty_5">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <!-- undefined -->
+        <number texture="num" x="0" y="0" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="playlevel" align="right" digit="0" condition="!difficulty_defined">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="11" y="65" />
+      </group>
+
+      <!-- judge_rank -->
+      <var id="judge_rank_alpha" type="int" />
+      <if condition="!judge_rank_defined">
+        <set id="judge_rank_alpha" value="64" />
+      </if>
+      <else>
+        <set id="judge_rank_alpha" value="255" />
+      </else>
+      
+      <group id="judge_rank" dst_timer="load_complete" loop="0">
+        <!-- label -->
+        <image texture="common_bg" x="322" y="140" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="4" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <image texture="common_bg" x="380" y="78" width="49" height="15" dst_timer="load_complete" loop="0" condition="judge_rank_easy">
+          <dst time="0" x="92" y="0" width="49" height ="15" alpha="$judge_rank_alpha" />
+        </image>
+        <image texture="common_bg" x="380" y="96" width="76" height="15" dst_timer="load_complete" loop="0" condition="judge_rank_normal">
+          <dst time="0" x="64" y="0" width="76" height ="15" alpha="$judge_rank_alpha" />
+        </image>
+        <image texture="common_bg" x="380" y="114" width="53" height="15" dst_timer="load_complete" loop="0" condition="judge_rank_hard">
+          <dst time="0" x="87" y="0" width="53" height ="15" alpha="$judge_rank_alpha" />
+        </image>
+        <image texture="common_bg" x="380" y="132" width="83" height="15" dst_timer="load_complete" loop="0" condition="judge_rank_veryhard">
+          <dst time="0" x="57" y="0" width="83" height ="15" alpha="$judge_rank_alpha" />
+        </image>
+
+        <dst time="0" x="11" y="88" />
+      </group>
+
+      <!-- separater -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="11" y="109" width="140" height ="1" alpha="128" />
+      </image>      
+      
+      <!-- bpm -->
+      <group id="bpm" dst_timer="load_complete" loop="0">
+        
+        <var id="bpm_pos" type="int" />
+        <if condition="bpm_variable">
+          <set id="bpm_pos" value="117" />
+        </if>
+        <else>
+          <set id="bpm_pos" value="131" />
+        </else>
+        
+        <!-- label -->
+        <image texture="common_bg" x="322" y="108" width="19" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="19" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="180" height="26" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="bpm" align="right" digit="0">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="11" y="$bpm_pos" />
+      </group>
+
+      <!-- minbpm -->
+      <group id="minbpm" dst_timer="load_complete" loop="0" condition="bpm_variable">
+
+        <!-- label -->
+        <image texture="common_bg" x="342" y="156" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="15" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="120" height="22" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="min_bpm" align="right" digit="0">
+          <dst time="0" x="110" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="31" y="134" />
+      </group>
+
+      <!-- maxbpm -->
+      <group id="maxbpm" dst_timer="load_complete" loop="0" condition="bpm_variable">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="156" width="19" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="120" height="22" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="max_bpm" align="right" digit="0">
+          <dst time="0" x="110" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="31" y="148" />
+      </group>
+
+      <!-- separater -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="11" y="166" width="140" height ="1" alpha="128" />
+      </image>
+
+      <!-- notes -->
+      <group id="notes" dst_timer="load_complete" loop="0" condition="autoplay">
+        
+        <var id="combo_pos" type="int" />
+        <if condition="!contains_ln">
+          <set id="combo_pos" value="181" />
+        </if>
+        <else>
+          <set id="combo_pos" value="174" />
+        </else>
+        
+        <!-- label -->
+        <image texture="common_bg" x="322" y="92" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="max_combo" align="left" digit="5">
+          <dst time="0" x="50" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="6" y="41" width="10" height="13" dst_timer="load_complete" loop="0">
+          <dst time="0" x="52" y="16" width="10" height ="13" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_notes" align="left" digit="5">
+          <dst time="0" x="65" y="16" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="11" y="$combo_pos" />
+      </group>
+      
+      <group id="max_combo" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="208" width="39" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="39" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="max_combo" align="left" digit="5">
+          <dst time="0" x="50" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="6" y="41" width="10" height="13" dst_timer="load_complete" loop="0">
+          <dst time="0" x="52" y="16" width="10" height ="13" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_notes" align="left" digit="5">
+          <dst time="0" x="65" y="16" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="11" y="174" />
+      </group>
+
+      <!-- longnotes -->
+      <group id="longnotes" dst_timer="load_complete" loop="0" condition="contains_ln, autoplay">
+        <!-- label -->
+        <image texture="common_bg" x="354" y="92" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="15" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="total_ln" align="left" digit="5">
+          <dst time="0" x="19" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="82" y="206" />
+      </group>
+
+      <!-- separater -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0" condition="autoplay">
+        <dst time="0" x="11" y="224" width="140" height ="1" alpha="128" />
+      </image>
+
+      <!-- notes_per_sec -->
+      <group id="notes_per_sec" dst_timer="load_complete" loop="0" condition="autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="148" width="51" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="51" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="notes_per_second" align="left" digit="4">
+          <dst time="0" x="80" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <!-- value_highlight -->
+        <number texture="num" x="0" y="128" width="150" height="13" div_x="10" div_y="1" dst_timer="nps_max_update" loop="-1" value="notes_per_second" align="right" digit="4">
+          <dst time="0" x="80" y="0" width="15" height ="13" alpha="192" />
+          <dst time="200" alpha="0" />
+        </number>
+        
+        <dst time="0" x="11" y="231" />
+      </group>
+
+      <!-- max_notes_per_sec -->
+      <group id="max_notes_per_sec" dst_timer="load_complete" loop="0" condition="autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="156" width="19" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="19" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="max_notes_per_second" align="left" digit="4">
+          <dst time="0" x="49" y="0" width="10" height ="11" alpha="255" />
+        </number>        
+
+        <!-- value_highlight -->
+        <number texture="num" x="0" y="142" width="100" height="11" div_x="10" div_y="1" dst_timer="nps_max_update" loop="-1" value="max_notes_per_second" align="right" digit="4">
+          <dst time="0" x="49" y="0" width="10" height ="11" alpha="192" />
+          <dst time="200" alpha="0" />
+        </number>
+
+        <dst time="0" x="62" y="248" />
+      </group>
+
+      <!-- average_notes_per_sec -->
+      <group id="average_notes_per_sec" dst_timer="load_complete" loop="0" condition="autoplay">
+        <!-- label -->
+        <image texture="common_bg" x="322" y="164" width="21" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="21" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="average_notes_per_second" align="left" digit="4">
+          <dst time="0" x="25" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="121" y="90" width="4" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="65" y="8" width="4" height ="3" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="105" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="average_notes_per_second_point" align="left" digit="2">
+          <dst time="0" x="69" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="62" y="262" />
+      </group>
+
+      <!-- separater -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0" condition="autoplay">
+        <dst time="0" x="11" y="280" width="140" height ="1" alpha="128" />
+      </image>
+
+      <!-- exscore -->
+      <group id="exscore" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="362" y="208" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="exscore" align="left" digit="5">
+          <dst time="0" x="65" y="0" width="15" height ="13" alpha="255" />
+        </number>
+
+        <dst time="0" x="11" y="208" />
+      </group>
+
+      <!-- score_rate -->
+      <group id="score_rate" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <image texture="num" x="160" y="82" width="5" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="5" height ="11" alpha="255" />
+        </image>
+
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="score_rate" align="left" digit="3">
+          <dst time="0" x="6" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="121" y="90" width="4" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="36" y="8" width="4" height ="3" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="105" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="score_rate_point" align="left" digit="2">
+          <dst time="0" x="40" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="149" y="82" width="10" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="60" y="0" width="10" height ="11" alpha="255" />
+        </image>
+
+        <image texture="num" x="166" y="82" width="5" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="71" y="0" width="5" height ="11" alpha="255" />
+        </image>
+
+        <dst time="0" x="75" y="224" />
+      </group>
+
+      <!-- combo_break -->
+      <group id="combo_break" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="475" y="150" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="15" height ="7" alpha="255" />
+        </image>
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="combo_break" align="left" digit="5">
+          <dst time="0" x="19" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="82" y="243" />
+      </group>
+
+      <!-- misscount -->
+      <group id="misscount" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="394" y="208" width="23" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="2" width="23" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="misscount" align="left" digit="5">
+          <dst time="0" x="27" y="0" width="10" height ="11" alpha="255" />
+        </number>
+
+        <dst time="0" x="74" y="257" />
+      </group>
+
+      <!-- judgecount -->
+      <group id="judgecount" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- pgreat -->
+        <image texture="common_bg" x="379" y="150" width="15" height="7" dst_timer="load_complete" loop="0" condition="!playstyle_9">
+          <dst time="0" x="0" y="0" width="15" height ="7" alpha="255" />
+        </image>
+        <image texture="common_bg" x="395" y="150" width="15" height="7" dst_timer="load_complete" loop="0" condition="playstyle_9">
+          <dst time="0" x="0" y="0" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="pgreat" align="left" digit="5">
+          <dst time="0" x="16" y="0" width="7" height ="7" alpha="255" />
+        </number>
+
+        <!-- great -->
+        <image texture="common_bg" x="411" y="150" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="9" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="great" align="left" digit="5">
+          <dst time="0" x="16" y="9" width="7" height ="7" alpha="255" />
+        </number>
+
+        <!-- good -->
+        <image texture="common_bg" x="427" y="150" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="18" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="good" align="left" digit="5">
+          <dst time="0" x="16" y="18" width="7" height ="7" alpha="255" />
+        </number>
+
+        <!-- bad -->
+        <image texture="common_bg" x="443" y="150" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="27" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="bad" align="left" digit="5">
+          <dst time="0" x="16" y="27" width="7" height ="7" alpha="255" />
+        </number>
+
+        <!-- poor -->
+        <image texture="common_bg" x="459" y="150" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="36" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="poor" align="left" digit="5">
+          <dst time="0" x="16" y="36" width="7" height ="7" alpha="255" />
+        </number>
+
+        <dst time="0" x="16" y="225" />
+      </group>
+
+      <!-- judge_timing -->
+      <group id="judge_timing" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- average_judge_timing -->
+        <image texture="common_bg" x="215" y="1" width="59" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="59" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="average_judge_timing" align="left" digit="3">
+          <dst time="0" x="63" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="load_complete" loop="0" value="average_judge_timing" align="left" digit="1">
+          <dst time="0" x="92" y="0" width="13" height ="7" alpha="255" />
+        </number>
+
+        <!-- fast -->
+        <image texture="common_bg" x="459" y="166" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="9" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="fast_count_without_pgreat" align="left" digit="5">
+          <dst time="0" x="16" y="9" width="7" height ="7" alpha="255" />
+        </number>
+
+        <!-- slow -->
+        <image texture="common_bg" x="475" y="166" width="15" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="54" y="9" width="15" height ="7" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="slow_count_without_pgreat" align="left" digit="5">
+          <dst time="0" x="70" y="9" width="7" height ="7" alpha="255" />
+        </number>
+
+        <dst time="0" x="16" y="272" />
+      </group>
+
+      <!-- separater -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="load_complete" loop="0" condition="!autoplay">
+        <dst time="0" x="11" y="295" width="140" height ="1" alpha="128" />
+      </image>
+
+      <!-- gauge_total -->
+      <var id="gauge_total_alpha" type="int" />
+      <if condition="!total_defined">
+        <set id="gauge_total_alpha" value="64" />
+      </if>
+      <else>
+        <set id="gauge_total_alpha" value="255" />
+      </else>
+
+      <group id="gauge_total" dst_timer="load_complete" loop="0" condition="autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="116" width="39" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="39" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="gauge_total" align="right" digit="0">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="$gauge_total_alpha" />
+        </number>
+
+        <dst time="0" x="11" y="288" />
+      </group>
+      
+      <group id="gauge_total_testplay" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="116" width="39" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="39" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="150" height="13" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="gauge_total" align="right" digit="0">
+          <dst time="0" x="125" y="0" width="15" height ="13" alpha="$gauge_total_alpha" />
+        </number>
+
+        <dst time="0" x="11" y="303" />
+      </group>
+
+      <!-- gauge_num -->
+      <group id="gauge_num" dst_timer="load_complete" loop="0" condition="autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="124" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="groove_gauge" align="left" digit="3">
+          <dst time="0" x="45" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="0" y="50" width="5" height="4" dst_timer="load_complete" loop="0">
+          <dst time="0" x="91" y="9" width="5" height ="4" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="27" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="groove_gauge_point" align="left" digit="2">
+          <dst time="0" x="97" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="34" y="42" width="12" height="12" dst_timer="load_complete" loop="0">
+          <dst time="0" x="128" y="1" width="12" height ="12" alpha="255" />
+        </image>
+
+        <dst time="0" x="11" y="305" />
+      </group>
+      
+      <group id="gauge_num_testplay" dst_timer="load_complete" loop="0" condition="!autoplay">
+
+        <!-- label -->
+        <image texture="common_bg" x="322" y="124" width="31" height="7" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="3" width="31" height ="7" alpha="255" />
+        </image>
+
+        <!-- value -->
+        <number texture="num" x="0" y="0" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="groove_gauge" align="left" digit="3">
+          <dst time="0" x="45" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="0" y="50" width="5" height="4" dst_timer="load_complete" loop="0">
+          <dst time="0" x="91" y="9" width="5" height ="4" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="27" width="165" height="13" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="groove_gauge_point" align="left" digit="2">
+          <dst time="0" x="97" y="0" width="15" height ="13" alpha="255" />
+        </number>
+        <image texture="num" x="34" y="42" width="12" height="12" dst_timer="load_complete" loop="0">
+          <dst time="0" x="128" y="1" width="12" height ="12" alpha="255" />
+        </image>
+
+        <dst time="0" x="11" y="320" />
+      </group>
+
+      <!-- gauge_total_increment -->
+      <group id="gauge_total_increment" dst_timer="load_complete" loop="0" condition="autoplay">
+
+        <image texture="num" x="160" y="82" width="5" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="5" height ="11" alpha="255" />
+        </image>
+
+        <number texture="num" x="0" y="82" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="gauge_total_increment" align="left" digit="4">
+          <dst time="0" x="6" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="121" y="90" width="4" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="46" y="8" width="4" height ="3" alpha="255" />
+        </image>
+        <number texture="num" x="0" y="105" width="110" height="11" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="gauge_total_increment_point" align="left" digit="2">
+          <dst time="0" x="50" y="0" width="10" height ="11" alpha="255" />
+        </number>
+        <image texture="num" x="149" y="82" width="10" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="70" y="0" width="10" height ="11" alpha="255" />
+        </image>
+
+        <image texture="num" x="166" y="82" width="5" height="11" dst_timer="load_complete" loop="0">
+          <dst time="0" x="81" y="0" width="5" height ="11" alpha="255" />
+        </image>
+
+        <dst time="0" x="65" y="322" />
+      </group>
+
+      <!-- gauge -->
+      <group id="gauge_bar" dst_timer="load_complete" loop="0">
+        <image texture="common_bg" x="165" y="53" width="140" height="18" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="140" height ="18" alpha="255" />
+        </image>
+        <bargraph texture="common_bg" x="306" y="53" width="104" height="10" dst_timer="load_complete" loop="0" value="groove_gauge" direction="right" max="80" min="0" img_mode="stretch">
+          <dst time="0" x="5" y="4" width="104" height ="10" alpha="255" />
+        </bargraph>
+        <bargraph texture="common_bg" x="410" y="53" width="26" height="10" dst_timer="load_complete" loop="0" value="groove_gauge" direction="right" max="100" min="80" img_mode="stretch">
+          <dst time="0" x="109" y="4" width="26" height ="10" alpha="255" />
+        </bargraph>
+        
+        <dst time="0" x="11" y="337" />
+      </group>
+      
+      <!-- side_info_dst -->
+      <dst time="0" x="639" y="0" />
+    </group>
+
+  </body>
+</skin>

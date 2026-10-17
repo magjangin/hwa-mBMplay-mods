@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<skin type="preload">
+  <head>
+    <title>mBMplay Default Preload</title>
+    <version>3.00</version>
+    <author>misty.ls04</author>
+    
+  </head>
+  <body>
+    <texture id="common_bg" src="img_common\common_bg.png" />
+    
+    <!-- bg -->
+    <include src="include\loading_bg.xml" />
+    
+    <!-- drop_message -->
+    <image texture="load" x="0" y="279" width="312" height="21" dst_timer="scene_start" loop="0">
+      <dst time="0" x="244" y="296" width="312" height ="21" alpha="255" />
+    </image>
+        
+    <!-- open_file_button -->
+    <button id="open_file_button" command="show_open_file_dialog" condition="enable_open_file_dialog">
+      
+      <!-- normal -->
+      <image texture="load" x="0" y="64" width="312" height="52" dst_timer="scene_start" loop="0" condition="!button_mouse_hover, !button_pressed">
+        <dst time="0" x="0" y="0" width="312" height ="52" alpha="255" />
+      </image>
+      <!-- hover -->
+      <image texture="load" x="0" y="117" width="312" height="52" dst_timer="scene_start" loop="0" condition="button_mouse_hover, !button_pressed">
+        <dst time="0" x="0" y="0" width="312" height ="52" alpha="255" />
+      </image>
+      <!-- pressed -->
+      <image texture="load" x="0" y="170" width="312" height="52" dst_timer="scene_start" loop="0" condition="button_pressed">
+        <dst time="0" x="0" y="0" width="312" height ="52" alpha="255" />
+      </image>
+
+      <dst time="0" x="244" y="346" width="312" height ="52" />
+    </button>
+
+    <!-- open_file_button_disabled -->
+    <image texture="load" x="0" y="223" width="312" height="52" dst_timer="scene_start" loop="0" condition="!enable_open_file_dialog">
+      <dst time="0" x="244" y="346" width="312" height ="52" alpha="255" />
+    </image>
+    
+    <!-- top_info -->
+    <include src="include\top_info.xml" />
+    
+  </body>
+</skin>

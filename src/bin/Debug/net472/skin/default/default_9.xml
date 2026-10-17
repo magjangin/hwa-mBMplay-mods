@@ -1,0 +1,1258 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<skin type="play" keys="9">
+  <head>
+    <title>mBMplay Default 9</title>
+    <version>3.10</version>
+    <author>misty.ls04</author>    
+  </head>
+  <options>
+    <customfile id="notes" name="Notes" path="img_9\notes" filter="*" type="directory" random="true" default="Default" />
+    <customfile id="lanecover" name="Lane cover" path="img_9\lanecover" filter="*.png" type="file" random="true" default="Default.png" />
+    <customfile id="bomb" name="Bomb" path="img_9\bomb" filter="*.png" type="file" random="true" default="Default.png" />
+    <customfile id="laser" name="Laser" path="img_9\laser" filter="*.png" type="file" random="true" default="Default.png" />
+    <customfile id="judge" name="Judge" path="img_9\judge" filter="*.png" type="file" random="true" default="Default.png" />
+    <customoption id="layout" name="Layout">
+      <option id="layout_left" default="true">Left</option>
+      <option id="layout_right">Right</option>
+      <option id="layout_center">Center</option>
+    </customoption>
+    <customoption id="fast_slow" name="Fast/Slow">
+      <option id="fast_slow_off" default="true">Off</option>
+      <option id="fast_slow_simple">Simple</option>
+      <option id="fast_slow_with_time">With time</option>
+    </customoption>
+  </options>
+  <body>
+    <texture id="lane" src="img_9\lane.png" />    
+    <texture id="laser" src="%laser%" />
+    <texture id="bomb" src="%bomb%" />
+    <texture id="judge" src="%judge%" />
+    <texture id="lanecover" src="%lanecover%" />
+
+    <include src="include\common_resource.xml" />
+
+    <!-- frame_position -->
+    <var id="layout_frame" type="int" value="0" />
+    <var id="layout_bg" type="int" value="0" />
+
+    <if condition="$_option[layout][layout_center]">
+      <set id="layout_frame" value="230" />
+      <set id="layout_bg" value="160" />
+    </if>
+    <elseif condition="$_option[layout][layout_right]">
+      <set id="layout_frame" value="390" />
+      <set id="layout_bg" value="320" />
+    </elseif>
+    <else>
+      <set id="layout_frame" value="70" />
+      <set id="layout_bg" value="0" />
+    </else>
+
+    <!-- background -->
+    <image texture="lane" x="0" y="0" width="1" height="419" dst_timer="load_complete" loop="0" filter="point">
+      <dst time="0" x="$layout_bg" y="0" width="480" height ="419" alpha="255" />
+    </image>
+    
+
+    <if condition="$_option[layout][layout_center]">
+      <image texture="common_bg" x="317" y="64" width="10" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="161" y="0" width="10" height ="419" alpha="240" />
+      </image>
+      <image texture="common_bg" x="306" y="64" width="10" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="629" y="0" width="10" height ="419" alpha="240" />
+      </image>
+    </if>
+    <elseif condition="$_option[layout][layout_right]">
+      <image texture="common_bg" x="317" y="64" width="10" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="321" y="0" width="10" height ="419" alpha="240" />
+      </image>
+    </elseif>
+    <else>
+      <image texture="common_bg" x="306" y="64" width="10" height="1" dst_timer="load_complete" loop="0">
+        <dst time="0" x="469" y="0" width="10" height ="419" alpha="240" />
+      </image>
+    </else>
+
+    <!-- side_info -->
+    <if condition="$_option[layout][layout_center]">
+      <include src="include\side_info_center.xml" />
+    </if>
+    <else>
+      <include src="include\side_info.xml" />
+    </else>
+
+    <!-- pm_frame -->
+    <group id="pm_frame" dst_timer="load_complete" loop="0">
+
+      <!-- frame -->
+      <image texture="lane" x="2" y="0" width="340" height="419" dst_timer="load_complete" loop="0">
+        <dst time="0" x="0" y="0" width="340" height ="419" alpha="255" />
+      </image>
+
+      <!-- gauge_frame -->
+      <image texture="lane" x="344" y="0" width="346" height="55" dst_timer="load_complete" loop="0" condition="!gauge_over_border">
+        <dst time="0" x="-3" y="364" width="346" height ="55" alpha="255" />
+      </image>
+      <image texture="lane" x="344" y="56" width="346" height="55" dst_timer="load_complete" loop="0" condition="gauge_over_border">
+        <dst time="0" x="-3" y="364" width="346" height ="55" alpha="255" />
+      </image>
+
+      <!-- gauge -->
+      <group id="gauge_group" dst_timer="load_complete" loop="0">
+        
+        <!-- bg -->
+        <image texture="lane" x="345" y="177" width="313" height="28" dst_timer="load_complete" loop="0">
+          <dst time="0" x="0" y="0" width="313" height ="28" alpha="255" />
+        </image>
+
+        <!-- body -->
+        <gauge texture="lane" x="345" y="148" width="312" height="28" div_gauge="24" border="19" direction="right">
+          <gauge_dst index ="0" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="0" width="13" height ="28" alpha="255" />
+          </gauge_dst>
+        </gauge>
+
+        <!-- highlight -->
+        <gauge texture="lane" x="345" y="206" width="312" height="28" div_gauge="24" border="19" direction="right">
+          <gauge_dst index ="1" dst_timer="load_complete" loop="0" blend="additive">
+            <dst time="0" x="0" y="0" width="13" height ="28" alpha="0" />
+            <dst time="500" alpha="96" />
+            <dst time="750" />
+            <dst time="1250" alpha="0" />
+          </gauge_dst>
+        </gauge>
+
+        <dst time="0" x="13" y="389" />
+      </group>
+
+      <!-- music_position -->
+      <bargraph texture="lane" x="344" y="112" width="290" height="8" dst_timer="load_complete" loop="0" value="music_time_position" direction="right" max="100" min="0" img_mode="cut">
+        <dst time="0" x="27" y="377" width="290" height ="8" alpha="255" />
+      </bargraph>
+      <trackbar id="1p_music_position_trackbar" dst_timer="load_complete" loop="0" value="music_time_position" max="100" min="0" start="top_left" end="top_right" readonly="true">
+        <trackbar_thumb dst_timer="load_complete" loop="0">
+          <image texture="lane" x="344" y="122" width="23" height="20" dst_timer="load_complete" loop="0">
+            <dst time="0" x="0" y="0" width="23" height ="20" alpha="255" />
+          </image>
+          <dst time="0" x="0" y="0" width="23" height ="20" />
+        </trackbar_thumb>
+        <dst time="0" x="17" y="368" width="313" height ="20" />
+      </trackbar>
+
+      <!-- lanes -->
+      <playarea id="lanes" side="1" range_y="-327" dst_timer="load_complete" loop="0">
+
+        <!-- judgeline -->
+        <image texture="lane" x="369" y="121" width="92" height="9" dst_timer="load_complete" loop="0" div_x="92" div_y="1" cycle="1500" div_timer="load_complete">
+          <dst time="0" x="16" y="318" width="308" height ="9" alpha="255" />
+        </image>
+
+        <!-- laser on -->
+        <!-- pgreat -->
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key1_on" loop="0" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_pgreat">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key2_on" loop="0" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_pgreat">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key3_on" loop="0" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_pgreat">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key4_on" loop="0" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_pgreat">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key5_on" loop="0" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_pgreat">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key6_on" loop="0" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_pgreat">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key7_on" loop="0" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_pgreat">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key8_on" loop="0" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_pgreat">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key9_on" loop="0" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_pgreat">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <!-- great -->
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key1_on" loop="0" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_great">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key2_on" loop="0" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_great">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key3_on" loop="0" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_great">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key4_on" loop="0" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_great">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key5_on" loop="0" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_great">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key6_on" loop="0" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_great">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key7_on" loop="0" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_great">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key8_on" loop="0" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_great">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key9_on" loop="0" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_great">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <!-- good -->
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key1_on" loop="0" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_good">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key2_on" loop="0" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_good">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key3_on" loop="0" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_good">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key4_on" loop="0" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_good">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key5_on" loop="0" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_good">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key6_on" loop="0" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_good">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key7_on" loop="0" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_good">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key8_on" loop="0" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_good">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key9_on" loop="0" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_good">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <!-- bad -->
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key1_on" loop="0" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_bad_or_worse">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key2_on" loop="0" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_bad_or_worse">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key3_on" loop="0" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_bad_or_worse">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key4_on" loop="0" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_bad_or_worse">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key5_on" loop="0" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_bad_or_worse">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key6_on" loop="0" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_bad_or_worse">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key7_on" loop="0" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_bad_or_worse">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key8_on" loop="0" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_bad_or_worse">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key9_on" loop="0" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_bad_or_worse">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+        </image>
+
+        <!-- laser off -->
+        <!-- pgreat -->
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key1_off" loop="-1" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_pgreat">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="34" width="0" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key2_off" loop="-1" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_pgreat">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="68" width="0" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key3_off" loop="-1" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_pgreat">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="102" width="0" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key4_off" loop="-1" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_pgreat">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="136" width="0" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key5_off" loop="-1" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_pgreat">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="170" width="0" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key6_off" loop="-1" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_pgreat">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="204" width="0" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key7_off" loop="-1" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_pgreat">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="238" width="0" />
+        </image>
+
+        <image texture="laser" x="38" y="0" width="30" height="358" dst_timer="1p_key8_off" loop="-1" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_pgreat">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="272" width="0" />
+        </image>
+
+        <image texture="laser" x="0" y="0" width="38" height="358" dst_timer="1p_key9_off" loop="-1" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_pgreat">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="306" width="0" />
+        </image>
+
+        <!-- great -->
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key1_off" loop="-1" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_great">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="34" width="0" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key2_off" loop="-1" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_great">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="68" width="0" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key3_off" loop="-1" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_great">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="102" width="0" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key4_off" loop="-1" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_great">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="136" width="0" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key5_off" loop="-1" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_great">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="170" width="0" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key6_off" loop="-1" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_great">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="204" width="0" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key7_off" loop="-1" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_great">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="238" width="0" />
+        </image>
+
+        <image texture="laser" x="107" y="0" width="30" height="358" dst_timer="1p_key8_off" loop="-1" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_great">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="272" width="0" />
+        </image>
+
+        <image texture="laser" x="69" y="0" width="38" height="358" dst_timer="1p_key9_off" loop="-1" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_great">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="306" width="0" />
+        </image>
+
+        <!-- good -->
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key1_off" loop="-1" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_good">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="34" width="0" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key2_off" loop="-1" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_good">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="68" width="0" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key3_off" loop="-1" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_good">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="102" width="0" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key4_off" loop="-1" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_good">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="136" width="0" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key5_off" loop="-1" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_good">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="170" width="0" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key6_off" loop="-1" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_good">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="204" width="0" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key7_off" loop="-1" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_good">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="238" width="0" />
+        </image>
+
+        <image texture="laser" x="176" y="0" width="30" height="358" dst_timer="1p_key8_off" loop="-1" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_good">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="272" width="0" />
+        </image>
+
+        <image texture="laser" x="138" y="0" width="38" height="358" dst_timer="1p_key9_off" loop="-1" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_good">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="306" width="0" />
+        </image>
+
+        <!-- bad -->
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key1_off" loop="-1" condition="!1p_key1_ln_hold_once, 1p_key1_laser_judge_bad_or_worse">
+          <dst time="0" x="15" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="34" width="0" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key2_off" loop="-1" condition="!1p_key2_ln_hold_once, 1p_key2_laser_judge_bad_or_worse">
+          <dst time="0" x="53" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="68" width="0" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key3_off" loop="-1" condition="!1p_key3_ln_hold_once, 1p_key3_laser_judge_bad_or_worse">
+          <dst time="0" x="83" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="102" width="0" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key4_off" loop="-1" condition="!1p_key4_ln_hold_once, 1p_key4_laser_judge_bad_or_worse">
+          <dst time="0" x="121" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="136" width="0" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key5_off" loop="-1" condition="!1p_key5_ln_hold_once, 1p_key5_laser_judge_bad_or_worse">
+          <dst time="0" x="151" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="170" width="0" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key6_off" loop="-1" condition="!1p_key6_ln_hold_once, 1p_key6_laser_judge_bad_or_worse">
+          <dst time="0" x="189" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="204" width="0" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key7_off" loop="-1" condition="!1p_key7_ln_hold_once, 1p_key7_laser_judge_bad_or_worse">
+          <dst time="0" x="219" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="238" width="0" />
+        </image>
+
+        <image texture="laser" x="245" y="0" width="30" height="358" dst_timer="1p_key8_off" loop="-1" condition="!1p_key8_ln_hold_once, 1p_key8_laser_judge_bad_or_worse">
+          <dst time="0" x="257" y="-40" width="30" height ="358" alpha="255" />
+          <dst time="50" x="272" width="0" />
+        </image>
+
+        <image texture="laser" x="207" y="0" width="38" height="358" dst_timer="1p_key9_off" loop="-1" condition="!1p_key9_ln_hold_once, 1p_key9_laser_judge_bad_or_worse">
+          <dst time="0" x="287" y="-40" width="38" height ="358" alpha="255" />
+          <dst time="50" x="306" width="0" />
+        </image>
+
+        <!-- barline -->
+        <barline side="1" texture="lane" x="344" y="144" width="308" height="1" dst_timer="load_complete" loop="0">
+          <dst time="0" x="16" y="323" width="308" height ="1" alpha="255" />
+        </barline>
+
+        <!-- notes -->
+        <include src="%notes%\obj.xml" />
+
+        <!-- lanes_dst -->
+        <dst time="0" x="0" y="0" />
+      </playarea>
+
+      <!-- lanecover -->
+      <group id="lanecover" dst_timer="load_complete" loop="0" condition="1p_lanecover_on">
+
+        <bargraph texture="lane" x="12" y="0" width="320" height="327" dst_timer="load_complete" loop="0" value="1p_lanecover" direction="down" max="100" min="0" img_mode="cut">
+          <dst time="0" x="0" y="0" width="320" height ="327" alpha="255" />
+        </bargraph>
+        <lanecover side="1" texture="lanecover" x="0" y="0" width="310" height="327" dst_timer="load_complete" loop="0" start_x="0" start_y="-327" end_x="0" end_y="0">
+          <dst time="0" x="5" y="0" width="310" height ="327" alpha="255" />
+        </lanecover>
+
+        <dst time="0" x="10" y="0" />
+      </group>
+
+      <!-- lanecover value -->
+      <group id="lanecover value" dst_timer="lanecover_changed" loop="-1" condition="lanecover_on">
+
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="1p_lanecover" align="left" digit="3">
+          <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <image texture="common_bg" x="322" y="72" width="3" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="21" y="4" width="3" height ="3" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="166" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="1p_lanecover_point" align="left" digit="2">
+          <dst time="0" x="24" y="0" width="7" height ="7" alpha="255" />
+        </number>
+
+        <dst time="0" x="343" y="5" />
+        <dst time="1000" />
+      </group>
+
+      <!-- bomb_judge -->
+      <playarea id="bomb_judge" side="1" range_y="-327" dst_timer="load_complete" loop="0">
+
+        <!-- bomb -->
+        <!-- cool -->
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key1_bomb_pgreat_exclusive" dst_timer="1p_key1_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-71" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key2_bomb_pgreat_exclusive" dst_timer="1p_key2_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-37" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key3_bomb_pgreat_exclusive" dst_timer="1p_key3_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-3" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key4_bomb_pgreat_exclusive" dst_timer="1p_key4_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="31" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key5_bomb_pgreat_exclusive" dst_timer="1p_key5_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="65" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key6_bomb_pgreat_exclusive" dst_timer="1p_key6_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="99" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key7_bomb_pgreat_exclusive" dst_timer="1p_key7_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="133" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key8_bomb_pgreat_exclusive" dst_timer="1p_key8_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="167" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key9_bomb_pgreat_exclusive" dst_timer="1p_key9_bomb_pgreat_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="201" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <!-- great -->
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key1_bomb_great_exclusive" dst_timer="1p_key1_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-71" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key2_bomb_great_exclusive" dst_timer="1p_key2_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-37" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key3_bomb_great_exclusive" dst_timer="1p_key3_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-3" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key4_bomb_great_exclusive" dst_timer="1p_key4_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="31" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key5_bomb_great_exclusive" dst_timer="1p_key5_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="65" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key6_bomb_great_exclusive" dst_timer="1p_key6_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="99" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key7_bomb_great_exclusive" dst_timer="1p_key7_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="133" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key8_bomb_great_exclusive" dst_timer="1p_key8_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="167" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="0" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key9_bomb_great_exclusive" dst_timer="1p_key9_bomb_great_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="201" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <!-- good -->
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key1_bomb_good_exclusive" dst_timer="1p_key1_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-71" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key2_bomb_good_exclusive" dst_timer="1p_key2_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-37" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key3_bomb_good_exclusive" dst_timer="1p_key3_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="-3" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key4_bomb_good_exclusive" dst_timer="1p_key4_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="31" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key5_bomb_good_exclusive" dst_timer="1p_key5_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="65" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key6_bomb_good_exclusive" dst_timer="1p_key6_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="99" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key7_bomb_good_exclusive" dst_timer="1p_key7_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="133" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key8_bomb_good_exclusive" dst_timer="1p_key8_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="167" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <image texture="bomb" x="0" y="576" width="2896" height="192" div_x="16" div_y="1" cycle="251" div_timer="1p_key9_bomb_good_exclusive" dst_timer="1p_key9_bomb_good_exclusive" blend="additive" filter="linear" loop="-1">
+          <dst time="0" x="201" y="240" width="240" height ="192" alpha="255" />
+          <dst time="250" />
+        </image>
+
+        <!-- longnote bomb -->
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key1_ln_holding" dst_timer="1p_key1_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="-71" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key2_ln_holding" dst_timer="1p_key2_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="-37" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key3_ln_holding" dst_timer="1p_key3_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="-3" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key4_ln_holding" dst_timer="1p_key4_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="31" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key5_ln_holding" dst_timer="1p_key5_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="65" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key6_ln_holding" dst_timer="1p_key6_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="99" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key7_ln_holding" dst_timer="1p_key7_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="133" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key8_ln_holding" dst_timer="1p_key8_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="167" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+        <image texture="bomb" x="0" y="192" width="1448" height="192" div_x="8" div_y="1" cycle="160" div_timer="1p_key9_ln_holding" dst_timer="1p_key9_ln_holding" blend="additive" filter="linear" loop="0">
+          <dst time="0" x="201" y="240" width="240" height ="192" alpha="255" />
+        </image>
+
+
+        <!-- judge -->
+        <!-- cool -->
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_pgreat, !gauge_100">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_pgreat, !gauge_100">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_pgreat, !gauge_100">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- gaugemax cool -->
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_pgreat, gauge_100">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_pgreat, gauge_100">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_pgreat, gauge_100">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- great -->
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_great">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_great">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_great">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- good -->
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_good">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_good">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_good">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- bad -->
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_bad">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_bad">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_bad">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- poor -->
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_left_poor">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_center_poor">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_right_poor">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- judge_ln -->
+        <!-- cool -->
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_pgreat, !gauge_100">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_pgreat, !gauge_100">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="20" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_pgreat, !gauge_100">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- gaugemax cool -->
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_pgreat, gauge_100">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_pgreat, gauge_100">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="1" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_pgreat, gauge_100">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- great -->
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_great">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_great">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="39" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_great">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- good -->
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_good">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_good">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="58" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_good">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- bad -->
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_bad">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_bad">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="77" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_bad">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- poor -->
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_left_poor">
+          <dst time="0" x="19" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_center_poor">
+          <dst time="0" x="121" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <image texture="judge" x="1" y="96" width="98" height="19" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_right_poor">
+          <dst time="0" x="223" y="253" width="98" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </image>
+
+        <!-- combo -->
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_judge_left" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_left, 1p_judge_left_good_or_better">
+          <dst time="0" x="12" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_judge_center" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_center, 1p_judge_center_good_or_better">
+          <dst time="0" x="114" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_judge_right" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_right, 1p_judge_right_good_or_better">
+          <dst time="0" x="216" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <!-- combo_ln -->
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_ln_judge_left" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_left, 1p_judge_left_good_or_better">
+          <dst time="0" x="12" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_ln_judge_center" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_center, 1p_judge_center_good_or_better">
+          <dst time="0" x="114" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <number texture="judge" x="100" y="45" width="160" height="19" div_x="10" div_y="1" dst_timer="1p_ln_judge_right" loop="-1" value="1p_combo_count" align="center" digit="7" condition="1p_last_judged_right, 1p_judge_right_good_or_better">
+          <dst time="0" x="216" y="273" width="16" height ="19" alpha="255" />
+          <dst time="500" alpha="0" />
+        </number>
+
+        <!-- fast_slow -->
+        <group id="fast_slow" dst_timer="load_complete" loop="0" condition="!autoplay">
+          
+          <!-- left -->
+          <group id="fast_slow_left" dst_timer="load_complete" loop="0" condition="!1p_judge_left_pgreat">
+
+            <!-- simple -->
+            <group id="fast_slow_left_simple" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_simple]">
+
+              <!-- fast -->
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_timing_left_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_timing_left_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <!-- slow -->
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_judge_left" loop="-1" condition="1p_judge_timing_left_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_ln_judge_left" loop="-1" condition="1p_judge_timing_left_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+
+              <dst time="0" x="39" y="0" />
+            </group>
+
+            <!-- with_time -->
+            <group id="fast_slow_left_with_time" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_with_time]">
+
+              <!-- normal -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_judge_left" loop="-1" value="1p_last_judge_time_left" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_judge_left" loop="-1" value="1p_last_judge_time_left" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <!-- ln -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_left" loop="-1" value="1p_last_judge_time_left" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_left" loop="-1" value="1p_last_judge_time_left" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+
+              <dst time="0" x="31" y="0" />
+            </group>
+
+            <dst time="0" x="0" y="0" />
+          </group>
+
+          <!-- center -->
+          <group id="fast_slow_center" dst_timer="load_complete" loop="0" condition="!1p_judge_center_pgreat">
+
+            <!-- simple -->
+            <group id="fast_slow_center_simple" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_simple]">
+
+              <!-- fast -->
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_timing_center_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_timing_center_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <!-- slow -->
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_judge_center" loop="-1" condition="1p_judge_timing_center_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_ln_judge_center" loop="-1" condition="1p_judge_timing_center_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+
+              <dst time="0" x="36" y="0" />
+            </group>
+
+            <!-- with_time -->
+            <group id="fast_slow_center_with_time" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_with_time]">
+
+              <!-- normal -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_judge_center" loop="-1" value="1p_last_judge_time_center" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_judge_center" loop="-1" value="1p_last_judge_time_center" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <!-- ln -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_center" loop="-1" value="1p_last_judge_time_center" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_center" loop="-1" value="1p_last_judge_time_center" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+
+              <dst time="0" x="28" y="0" />
+            </group>
+
+            <dst time="0" x="105" y="0" />
+          </group>
+
+          <!-- right -->
+          <group id="fast_slow_right" dst_timer="load_complete" loop="0" condition="!1p_judge_right_pgreat">
+
+            <!-- simple -->
+            <group id="fast_slow_right_simple" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_simple]">
+
+              <!-- fast -->
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_timing_right_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="191" width="25" height="7" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_timing_right_fast">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <!-- slow -->
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_judge_right" loop="-1" condition="1p_judge_timing_right_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+              <image texture="common_bg" x="483" y="199" width="25" height="7" dst_timer="1p_ln_judge_right" loop="-1" condition="1p_judge_timing_right_slow">
+                <dst time="0" x="0" y="0" width="25" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </image>
+
+              <dst time="0" x="39" y="0" />
+            </group>
+
+            <!-- with_time -->
+            <group id="fast_slow_right_with_time" dst_timer="load_complete" loop="0" condition="$_option[fast_slow][fast_slow_with_time]">
+
+              <!-- normal -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_judge_right" loop="-1" value="1p_last_judge_time_right" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_judge_right" loop="-1" value="1p_last_judge_time_right" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <!-- ln -->
+              <number texture="common_bg" x="379" y="174" width="84" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_right" loop="-1" value="1p_last_judge_time_right" align="left" digit="3" overflow="stop">
+                <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+              <number texture="common_bg" x="324" y="191" width="156" height="14" div_x="12" div_y="2" dst_timer="1p_ln_judge_right" loop="-1" value="1p_last_judge_time_right" align="left" digit="1">
+                <dst time="0" x="29" y="0" width="13" height ="7" alpha="255" />
+                <dst time="500" alpha="0" />
+              </number>
+
+              <dst time="0" x="31" y="0" />
+            </group>
+
+            <dst time="0" x="204" y="0" />
+          </group>
+          
+          <dst time="0" x="16" y="238" />
+        </group>
+
+        <!-- bomb_judge_dst -->
+        <dst time="0" x="0" y="0" />
+      </playarea>
+
+      <!-- lane_note_count -->
+      <group id="1p_lane_note_count" dst_timer="load_complete" loop="0" condition="display_note_count, autoplay">
+
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key1_note_count" align="center" digit="5" condition="1p_key1_contains_notes">
+          <dst time="0" x="16" y="9" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key2_note_count" align="center" digit="5" condition="1p_key2_contains_notes">
+          <dst time="0" x="50" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key3_note_count" align="center" digit="5" condition="1p_key3_contains_notes">
+          <dst time="0" x="84" y="9" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key4_note_count" align="center" digit="5" condition="1p_key4_contains_notes">
+          <dst time="0" x="118" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key5_note_count" align="center" digit="5" condition="1p_key5_contains_notes">
+          <dst time="0" x="152" y="9" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key6_note_count" align="center" digit="5" condition="1p_key6_contains_notes">
+          <dst time="0" x="186" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key7_note_count" align="center" digit="5" condition="1p_key7_contains_notes">
+          <dst time="0" x="220" y="9" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key8_note_count" align="center" digit="5" condition="1p_key8_contains_notes">
+          <dst time="0" x="254" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key9_note_count" align="center" digit="5" condition="1p_key9_contains_notes">
+          <dst time="0" x="288" y="9" width="7" height ="7" alpha="255" />
+        </number>
+
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key1_note_count" align="center" digit="5" condition="!1p_key1_contains_notes">
+          <dst time="0" x="16" y="9" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key2_note_count" align="center" digit="5" condition="!1p_key2_contains_notes">
+          <dst time="0" x="50" y="0" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key3_note_count" align="center" digit="5" condition="!1p_key3_contains_notes">
+          <dst time="0" x="84" y="9" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key4_note_count" align="center" digit="5" condition="!1p_key4_contains_notes">
+          <dst time="0" x="118" y="0" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key5_note_count" align="center" digit="5" condition="!1p_key5_contains_notes">
+          <dst time="0" x="152" y="9" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key6_note_count" align="center" digit="5" condition="!1p_key6_contains_notes">
+          <dst time="0" x="186" y="0" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key7_note_count" align="center" digit="5" condition="!1p_key7_contains_notes">
+          <dst time="0" x="220" y="9" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key8_note_count" align="center" digit="5" condition="!1p_key8_contains_notes">
+          <dst time="0" x="254" y="0" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+        <number texture="common_bg" x="379" y="158" width="70" height="7" div_x="10" div_y="1" dst_timer="load_complete" loop="0" value="1p_key9_note_count" align="center" digit="5" condition="!1p_key9_contains_notes">
+          <dst time="0" x="288" y="9" width="7" height ="7" r="160" g="160" b="160" alpha="160" />
+        </number>
+
+        <dst time="0" x="0" y="339" />
+      </group>
+
+      <!-- ran-mir -->
+      <group id="ran_mir" dst_timer="load_complete" loop="0">
+
+        <!-- random -->
+        <image texture="common_bg" x="343" y="216" width="37" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_random">
+          <dst time="0" x="6" y="0" width="37" height ="7" alpha="255" />
+        </image>
+        <!-- mirror -->
+        <image texture="common_bg" x="381" y="216" width="33" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_mirror">
+          <dst time="0" x="8" y="0" width="33" height ="7" alpha="255" />
+        </image>        
+        <!-- rotate -->
+        <image texture="common_bg" x="322" y="232" width="37" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_rotate">
+          <dst time="0" x="6" y="0" width="37" height ="7" alpha="255" />
+        </image>
+        <!-- cross -->
+        <image texture="common_bg" x="360" y="232" width="31" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_cross">
+          <dst time="0" x="9" y="0" width="31" height ="7" alpha="255" />
+        </image>
+        <!-- x-rotate -->
+        <image texture="common_bg" x="392" y="232" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_xrotate">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+        <!-- split -->
+        <image texture="common_bg" x="322" y="240" width="27" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_split">
+          <dst time="0" x="11" y="0" width="27" height ="7" alpha="255" />
+        </image>
+        <!-- odd_even -->
+        <image texture="common_bg" x="350" y="240" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_oddeven">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+        <!-- spread -->
+        <image texture="common_bg" x="400" y="240" width="37" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_spread">
+          <dst time="0" x="6" y="0" width="37" height ="7" alpha="255" />
+        </image>
+        <!-- s-random -->
+        <image texture="common_bg" x="322" y="224" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_srandom">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+        <!-- h-random -->
+        <image texture="common_bg" x="372" y="224" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_hrandom">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+        <!-- s-random_n -->
+        <image texture="common_bg" x="422" y="216" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_srandom_n">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+        <!-- s-random_p -->
+        <image texture="common_bg" x="422" y="224" width="49" height="7" dst_timer="load_complete" loop="0" condition="1p_ran_mir_srandom_p">
+          <dst time="0" x="0" y="0" width="49" height ="7" alpha="255" />
+        </image>
+
+        <dst time="0" x="348" y="408" />
+      </group>
+
+      <!-- lift_value -->
+      <group id="lift_value" dst_timer="1p_lift_changed" loop="-1">
+
+        <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="1p_lift" align="left" digit="3">
+          <dst time="0" x="0" y="0" width="7" height ="7" alpha="255" />
+        </number>
+        <image texture="common_bg" x="322" y="72" width="3" height="3" dst_timer="load_complete" loop="0">
+          <dst time="0" x="21" y="4" width="3" height ="3" alpha="255" />
+        </image>
+        <number texture="common_bg" x="379" y="166" width="77" height="7" div_x="11" div_y="1" dst_timer="load_complete" loop="0" value="1p_lift_point" align="left" digit="2">
+          <dst time="0" x="24" y="0" width="7" height ="7" alpha="255" />
+        </number>
+
+        <dst time="0" x="343" y="319" />
+        <dst time="1000" />
+      </group>
+
+      <!-- frame_dst -->
+      <dst time="0" x="$layout_frame" y="0" />
+    </group>
+
+    <!-- bottom_info -->
+    <include src="include\bottom_info.xml" />
+
+    <!-- loading -->
+    <include src="include\loading.xml" />
+
+    <!-- top_info -->
+    <include src="include\top_info.xml" />
+    
+  </body>
+</skin>

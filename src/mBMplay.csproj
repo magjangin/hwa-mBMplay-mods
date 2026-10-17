@@ -1,0 +1,113 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>mBMplay</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>True</UseWindowsForms>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System.Core" />
+    <Reference Include="CSCore">
+      <HintPath>..\input\dll\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics">
+      <HintPath>..\input\dll\MistGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="MafuFont">
+      <HintPath>..\input\dll\MafuFont.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Tsukikage.DirectShow">
+      <HintPath>..\input\dll\Tsukikage.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="UnmanagedArray">
+      <HintPath>..\input\dll\UnmanagedArray.dll</HintPath>
+    </Reference>
+    <Reference Include="MistInput">
+      <HintPath>..\input\dll\MistInput.dll</HintPath>
+    </Reference>
+    <Reference Include="MistAudio">
+      <HintPath>..\input\dll\MistAudio.dll</HintPath>
+      <Aliases>MistAudioAlias</Aliases>
+    </Reference>
+    <Reference Include="MistGraphics.BitmapImage">
+      <HintPath>..\input\dll\MistGraphics.BitmapImage.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\input\dll\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="MistUtils">
+      <HintPath>..\input\dll\MistUtils.dll</HintPath>
+      <Aliases>MistUtilsAlias</Aliases>
+    </Reference>
+    <Reference Include="MistGraphics.BitmapImage.Skia">
+      <HintPath>..\input\dll\MistGraphics.BitmapImage.Skia.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.Vulkan.Windows">
+      <HintPath>..\input\dll\MistGraphics.Vulkan.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.Vulkan">
+      <HintPath>..\input\dll\MistGraphics.Vulkan.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.OpenGL.Windows">
+      <HintPath>..\input\dll\MistGraphics.OpenGL.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.DirectX12">
+      <HintPath>..\input\dll\MistGraphics.DirectX12.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.DirectX11">
+      <HintPath>..\input\dll\MistGraphics.DirectX11.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.DirectX9">
+      <HintPath>..\input\dll\MistGraphics.DirectX9.dll</HintPath>
+    </Reference>
+    <Reference Include="MistAudio.XAudio2">
+      <HintPath>..\input\dll\MistAudio.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="MistAudio.OpenAL">
+      <HintPath>..\input\dll\MistAudio.OpenAL.dll</HintPath>
+    </Reference>
+    <Reference Include="MistAudio.DirectSound">
+      <HintPath>..\input\dll\MistAudio.DirectSound.dll</HintPath>
+    </Reference>
+    <Reference Include="MistAudio.Wasapi">
+      <HintPath>..\input\dll\MistAudio.Wasapi.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.DirectX">
+      <HintPath>..\input\dll\MistGraphics.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="MistGraphics.Windows">
+      <HintPath>..\input\dll\MistGraphics.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="MistInput.DirectInput">
+      <HintPath>..\input\dll\MistInput.DirectInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.13" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\input\dll\x64\libSkiaSharp.dll">
+      <Link>x64\libSkiaSharp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\input\dll\x64\libSkiaSharp.dll">
+      <Link>libSkiaSharp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

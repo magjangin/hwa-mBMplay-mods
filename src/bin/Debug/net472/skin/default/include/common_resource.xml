@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- common_resources -->
+
+<skin type="include">
+  <body>
+    <texture id="num" src="img_common\num.png" />
+    <texture id="common_bg" src="img_common\common_bg.png" />
+    
+    <font id="common" src="font\common\common.mafufont" />
+    <font id="title" src="font\title\title.mafufont" />
+  </body>
+</skin>

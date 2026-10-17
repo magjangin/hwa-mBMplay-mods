@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- top_info -->
+
+<skin type="include">
+  <body>
+    
+    <!-- fps_ups -->
+    <group id="fps_ups" dst_timer="scene_start" loop="0" condition="display_fps">
+
+      <!-- fps -->
+      <image texture="common_bg" x="165" y="1" width="21" height="7" dst_timer="scene_start" loop="0">
+        <dst time="0" x="1" y="1" width="21" height ="7" alpha="255" />
+      </image>
+      <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="scene_start" loop="0" value="fps" align="left" digit="5" condition="display_fps">
+        <dst time="0" x="23" y="1" width="7" height ="7" alpha="255" />
+      </number>
+      <!-- ups -->
+      <image texture="common_bg" x="187" y="1" width="27" height="7" dst_timer="scene_start" loop="0">
+        <dst time="0" x="59" y="1" width="27" height ="7" alpha="255" />
+      </image>
+      <number texture="common_bg" x="379" y="158" width="77" height="7" div_x="11" div_y="1" dst_timer="scene_start" loop="0" value="ups" align="left" digit="5" condition="display_fps">
+        <dst time="0" x="87" y="1" width="7" height ="7" alpha="255" />
+      </number>
+
+      <dst time="0" x="0" y="0" />
+    </group>
+    
+  </body>
+</skin>

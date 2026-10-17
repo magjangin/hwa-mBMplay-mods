@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mafufont version="1.0">
+  <head>
+    <size>17</size>
+    <space>-1</space>
+  </head>
+  <textures>
+    <texture id="version_text" src="version_text.png" />
+  </textures>
+  <characters>
+    <char code="46" texture="version_text" x="120" y="0" width="5" height="17" /> <!-- . (U+002E) -->
+    <char code="48" texture="version_text" x="0" y="0" width="12" height="17" /> <!-- 0 (U+0030) -->
+    <char code="49" texture="version_text" x="12" y="0" width="12" height="17" /> <!-- 1 (U+0031) -->
+    <char code="50" texture="version_text" x="24" y="0" width="12" height="17" /> <!-- 2 (U+0032) -->
+    <char code="51" texture="version_text" x="36" y="0" width="12" height="17" /> <!-- 3 (U+0033) -->
+    <char code="52" texture="version_text" x="48" y="0" width="12" height="17" /> <!-- 4 (U+0034) -->
+    <char code="53" texture="version_text" x="60" y="0" width="12" height="17" /> <!-- 5 (U+0035) -->
+    <char code="54" texture="version_text" x="72" y="0" width="12" height="17" /> <!-- 6 (U+0036) -->
+    <char code="55" texture="version_text" x="84" y="0" width="12" height="17" /> <!-- 7 (U+0037) -->
+    <char code="56" texture="version_text" x="96" y="0" width="12" height="17" /> <!-- 8 (U+0038) -->
+    <char code="57" texture="version_text" x="108" y="0" width="12" height="17" /> <!-- 9 (U+0039) -->
+    <char code="118" texture="version_text" x="125" y="0" width="11" height="17" /> <!-- v (U+0076) -->
+  </characters>
+</mafufont>

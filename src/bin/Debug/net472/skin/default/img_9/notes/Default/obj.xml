@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- 9keys default notes -->
+
+<skin type="include">
+  <body>
+    <texture id="obj" src="%notes%\obj.png" />
+
+    <!-- notes -->
+    <lane index="1" dst_timer="bpm" loop="0">
+      <note texture="obj" x="1" y="1" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="1" y="110" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="170" y="1" width="36" height="18" />
+      <ln_body texture="obj" x="1" y="219" width="36" height="1" />
+      <ln_end_holding texture="obj" x="170" y="19" width="36" height="18" />
+      <ln_body_holding texture="obj" x="1" y="220" width="36" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="36" height="1" />
+      <dst time="0" x="11" y="313" width="46" height ="20" alpha="255" />
+      <dst time="100" x="16" y="314" width="36" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="11" y="313" width="46" height ="20" />
+    </lane>
+
+    <lane index="2" dst_timer="bpm" loop="0">
+      <note texture="obj" x="38" y="1" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="38" y="110" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="207" y="1" width="28" height="18" />
+      <ln_body texture="obj" x="38" y="219" width="28" height="1" />
+      <ln_end_holding texture="obj" x="207" y="19" width="28" height="18" />
+      <ln_body_holding texture="obj" x="38" y="220" width="28" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="28" height="1" />
+      <dst time="0" x="50" y="313" width="36" height ="20" alpha="255" />
+      <dst time="10" x="54" y="314" width="28" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="50" y="313" width="36" height ="20" />
+    </lane>
+
+    <lane index="3" dst_timer="bpm" loop="0">
+      <note texture="obj" x="67" y="1" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="67" y="110" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="236" y="1" width="36" height="18" />
+      <ln_body texture="obj" x="67" y="219" width="36" height="1" />
+      <ln_end_holding texture="obj" x="236" y="19" width="36" height="18" />
+      <ln_body_holding texture="obj" x="67" y="220" width="36" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="36" height="1" />
+      <dst time="0" x="79" y="313" width="46" height ="20" alpha="255" />
+      <dst time="100" x="84" y="314" width="36" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="79" y="313" width="46" height ="20" />
+    </lane>
+
+    <lane index="4" dst_timer="bpm" loop="0">
+      <note texture="obj" x="104" y="1" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="104" y="110" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="273" y="1" width="28" height="18" />
+      <ln_body texture="obj" x="104" y="219" width="28" height="1" />
+      <ln_end_holding texture="obj" x="273" y="19" width="28" height="18" />
+      <ln_body_holding texture="obj" x="104" y="220" width="28" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="28" height="1" />
+      <dst time="0" x="118" y="313" width="36" height ="20" alpha="255" />
+      <dst time="100" x="122" y="314" width="28" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="118" y="313" width="36" height ="20" />
+    </lane>
+
+    <lane index="5" dst_timer="bpm" loop="0">
+      <note texture="obj" x="133" y="1" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="133" y="110" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="302" y="1" width="36" height="18" />
+      <ln_body texture="obj" x="133" y="219" width="36" height="1" />
+      <ln_end_holding texture="obj" x="302" y="19" width="36" height="18" />
+      <ln_body_holding texture="obj" x="133" y="220" width="36" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="36" height="1" />
+      <dst time="0" x="147" y="313" width="46" height ="20" alpha="255" />
+      <dst time="100" x="152" y="314" width="36" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="147" y="313" width="46" height ="20" />
+    </lane>
+
+    <lane index="6" dst_timer="bpm" loop="0">
+      <note texture="obj" x="104" y="1" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="104" y="110" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="273" y="1" width="28" height="18" />
+      <ln_body texture="obj" x="104" y="219" width="28" height="1" />
+      <ln_end_holding texture="obj" x="273" y="19" width="28" height="18" />
+      <ln_body_holding texture="obj" x="104" y="220" width="28" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="28" height="1" />
+      <dst time="0" x="186" y="313" width="36" height ="20" alpha="255" />
+      <dst time="100" x="190" y="314" width="28" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="186" y="313" width="36" height ="20" />
+    </lane>
+
+    <lane index="7" dst_timer="bpm" loop="0">
+      <note texture="obj" x="67" y="1" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="67" y="110" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="236" y="1" width="36" height="18" />
+      <ln_body texture="obj" x="67" y="219" width="36" height="1" />
+      <ln_end_holding texture="obj" x="236" y="19" width="36" height="18" />
+      <ln_body_holding texture="obj" x="67" y="220" width="36" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="36" height="1" />
+      <dst time="0" x="215" y="313" width="46" height ="20" alpha="255" />
+      <dst time="100" x="220" y="314" width="36" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="215" y="313" width="46" height ="20" />
+    </lane>
+
+    <lane index="8" dst_timer="bpm" loop="0">
+      <note texture="obj" x="38" y="1" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="38" y="110" width="28" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="207" y="1" width="28" height="18" />
+      <ln_body texture="obj" x="38" y="219" width="28" height="1" />
+      <ln_end_holding texture="obj" x="207" y="19" width="28" height="18" />
+      <ln_body_holding texture="obj" x="38" y="220" width="28" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="28" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="28" height="1" />
+      <dst time="0" x="254" y="313" width="36" height ="20" alpha="255" />
+      <dst time="100" x="258" y="314" width="28" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="254" y="313" width="36" height ="20" />
+    </lane>
+
+    <lane index="9" dst_timer="bpm" loop="0">
+      <note texture="obj" x="1" y="1" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_start texture="obj" x="1" y="110" width="36" height="108" div_x="1" div_y="6" cycle="1500" div_timer="load_complete" />
+      <ln_end texture="obj" x="170" y="1" width="36" height="18" />
+      <ln_body texture="obj" x="1" y="219" width="36" height="1" />
+      <ln_end_holding texture="obj" x="170" y="19" width="36" height="18" />
+      <ln_body_holding texture="obj" x="1" y="220" width="36" height="1" />
+      <ln_start_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_end_released texture="obj" x="68" y="236" width="36" height="18" />
+      <ln_body_released texture="obj" x="68" y="236" width="36" height="1" />
+      <dst time="0" x="283" y="313" width="46" height ="20" alpha="255" />
+      <dst time="100" x="288" y="314" width="36" height ="18" />
+      <dst time="900" />
+      <dst time="1000" x="283" y="313" width="46" height ="20" />
+    </lane>
+  </body>
+</skin>

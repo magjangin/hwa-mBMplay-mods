@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- loading -->
+
+<skin type="include">
+  <body>
+    <texture id="load" src="img_common\load.png" />
+    <texture id="load_bg" src="img_common\load_bg.png" />
+
+    <font id="version" src="font\version\version.mafufont" />
+
+    <!-- bg -->
+    <image texture="load_bg" x="0" y="0" width="800" height="480" dst_timer="scene_start" loop="0">
+      <dst time="0" x="0" y="0" width="800" height ="480" alpha="255" />
+    </image>
+    
+    <!-- logo -->
+    <image texture="load" x="0" y="0" width="281" height="61" dst_timer="scene_start" loop="0">
+      <dst time="0" x="260" y="105" width="281" height ="61" alpha="255" />
+    </image>
+    <!-- version -->
+    <text font="version" value="version" align="center" overflow="visible" dst_timer="scene_start" loop="0" filter="linear">
+      <dst time="0" x="400" y="173" width="200" height ="17" alpha="255" />      
+    </text>
+
+    <!-- separater -->
+    <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="scene_start" loop="0">
+      <dst time="0" x="170" y="250" width="460" height ="1" alpha="128" />
+    </image>
+    
+  </body>
+</skin>

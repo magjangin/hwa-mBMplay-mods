@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- loading -->
+
+<skin type="include">
+  <body>
+
+    <group id="loading_screen" dst_timer="scene_start" loop="0" condition="loading">
+
+      <!-- bg -->
+      <include src="include\loading_bg.xml" />
+
+      <!-- loading_text -->
+      <group id="loading_text" dst_timer="scene_start" loop="0">
+        
+        <image texture="load" x="167" y="278" width="69" height="20" dst_timer="scene_start" loop="0">
+          <dst time="0" x="0" y="0" width="69" height ="20" alpha="255" />
+        </image>
+        <image texture="load" x="239" y="278" width="16" height="18" dst_timer="scene_start" loop="0" div_x="1" div_y="3" cycle="1000" div_timer="load_start">
+          <dst time="0" x="69" y="11" width="16" height ="6" alpha="255" />
+        </image>
+        <number texture="load" x="0" y="301" width="120" height="16" div_x="10" div_y="1" dst_timer="scene_start" loop="0" value="load_percentage" align="right" digit="3">
+          <dst time="0" x="97" y="0" width="12" height ="16" alpha="255" />
+        </number>
+        <image texture="load" x="258" y="278" width="17" height="16" dst_timer="scene_start" loop="0">
+          <dst time="0" x="133" y="0" width="17" height ="16" alpha="255" />
+        </image>
+        
+        <dst time="0" x="325" y="325" />
+      </group>
+      <!-- loading_bar -->
+      <image texture="#white" x="0" y="0" width="1" height="1" dst_timer="scene_start" loop="0">
+        <dst time="0" x="275" y="350" width="250" height ="2" alpha="128" r="192" g="192" b="192" />
+      </image>
+      <bargraph texture="#white" x="0" y="0" width="1" height="1" dst_timer="scene_start" loop="0" value="load_percentage" direction="right" max="100" min="0" img_mode="stretch">
+        <dst time="0" x="275" y="350" width="250" height ="2" alpha="255" />
+      </bargraph>
+
+      <dst time="0" x="0" y="0" />
+    </group>
+    
+  </body>
+</skin>
