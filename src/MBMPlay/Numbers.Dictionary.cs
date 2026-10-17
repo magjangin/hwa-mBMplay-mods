@@ -316,4 +316,127 @@ public static partial class Numbers
 		values.Add("2p_last_judge_time_right", (int digit) => GetBeforePointValue(Player2LastJudgeTimeRight, digit));
 		values.Add("2p_last_judge_time_right_point", (int digit) => GetAfterPointValue(Player2LastJudgeTimeRight, digit));
 	}
+
+	public static int GetValue(string name, int digit)
+	{
+		if (string.IsNullOrEmpty(name))
+		{
+			return 0;
+		}
+		if (IntValueDictionary.ContainsKey(name))
+		{
+			return IntValueDictionary[name](digit);
+		}
+		return 0;
+	}
+
+	public static double GetValueDouble(string name)
+	{
+		if (string.IsNullOrEmpty(name))
+		{
+			return 0.0;
+		}
+		if (DoubleValueDictionary.ContainsKey(name))
+		{
+			return DoubleValueDictionary[name]();
+		}
+		return GetValue(name, 0);
+	}
+
+	public static bool TryGetValueDouble(string name, out double value)
+	{
+		if (!string.IsNullOrEmpty(name))
+		{
+			if (DoubleValueDictionary.ContainsKey(name))
+			{
+				value = DoubleValueDictionary[name]();
+				return true;
+			}
+			if (IntValueDictionary.ContainsKey(name))
+			{
+				value = IntValueDictionary[name](0);
+				return true;
+			}
+		}
+		value = double.NaN;
+		return false;
+	}
+
+	public static bool TryGetCommandDouble(string name, out Func<double> func)
+	{
+		if (!string.IsNullOrEmpty(name))
+		{
+			if (DoubleValueDictionary.ContainsKey(name))
+			{
+				func = DoubleValueDictionary[name];
+				return true;
+			}
+			if (IntValueDictionary.ContainsKey(name))
+			{
+				func = () => IntValueDictionary[name](0);
+				return true;
+			}
+		}
+		func = null;
+		return false;
+	}
+
+	internal static int GetIntValue(int num, int digit)
+	{
+		if (digit < 0)
+		{
+			int num2 = ((num == 0) ? 1 : ((int)Math.Floor(Math.Log10(Math.Abs(num))) + 1));
+			if (Math.Abs(digit) >= num2)
+			{
+				return num;
+			}
+			return (int)Math.Truncate((double)num / Math.Pow(10.0, num2 - Math.Abs(digit)));
+		}
+		return num;
+	}
+
+	internal static int GetBeforePointValue(double num, int digit)
+	{
+		double num2 = num;
+		if (num2 > 2147483647.0 || num2 < -2147483648.0)
+		{
+			num2 -= Math.Truncate(num2 / 1000000000.0) * 1000000000.0;
+		}
+		return GetIntValue((int)Math.Truncate(new decimal(num2)), digit);
+	}
+
+	internal static int GetAfterPointValue(double num, int digit)
+	{
+		if (num == 0.0)
+		{
+			return 0;
+		}
+		double num2 = num;
+		if (num2 > 2147483647.0 || num2 < -2147483648.0)
+		{
+			num2 -= Math.Truncate(num2 / 1000000000.0) * 1000000000.0;
+		}
+		decimal num3 = new decimal(num2);
+		num3 %= 1m;
+		if (num3 == 0m)
+		{
+			return 0;
+		}
+		if (digit == 0)
+		{
+			for (int i = 0; i < 9; i++)
+			{
+				num3 *= 10m;
+				if (num3 == Math.Truncate(num3))
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			num3 *= (decimal)Math.Pow(10.0, digit);
+		}
+		return (int)Math.Truncate(num3);
+	}
 }

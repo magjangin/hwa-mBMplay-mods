@@ -343,4 +343,17 @@ public static partial class Flags
 		flags.Add("volume_bgm_mute", () => IsBgmVolumeMute);
 		flags.Add("enable_open_file_dialog", () => EnableOpenFileDialog);
 	}
+
+	public static bool GetValue(string name)
+	{
+		if (string.IsNullOrEmpty(name))
+		{
+			return false;
+		}
+		if (FlagDictionary.ContainsKey(name))
+		{
+			return FlagDictionary[name]();
+		}
+		return false;
+	}
 }
