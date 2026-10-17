@@ -15,1684 +15,422 @@ public partial class Skin
 {
 	private static void ReadSkinBody(XmlReader reader, Skin skin, Scene scene, ISkinItemGroup parentGroup = null)
 	{
-		ISkinItem skinItem = null;
-		SkinDestinationContainer skinDestinationContainer = null;
-		int key = 0;
-		bool flag = false;
-		int num = 0;
-		bool flag2 = false;
-		List<ISkinItemGroup> groups = new List<ISkinItemGroup>();
-		TrackBarSkinItem trackBarSkinItem = null;
-		List<IControlSkinItemGroup> controlGroups = new List<IControlSkinItemGroup>();
-		if (reader.NodeType != XmlNodeType.Element || !(reader.LocalName == "body"))
+		new SkinBodyReader(reader, skin, scene, parentGroup).Read();
+	}
+
+	// 스킨 XML의 <body>를 읽는다. 원래 1800줄짜리 ReadSkinBody 한 메서드였던 것을 지역 변수는 필드로,
+	// 시작 태그별 처리는 Read*() 메서드로 옮겼다(Skin.ReadSkinBody.*.cs).
+	private sealed partial class SkinBodyReader
+	{
+		private readonly XmlReader reader;
+
+		private readonly Skin skin;
+
+		private readonly Scene scene;
+
+		private readonly ISkinItemGroup parentGroup;
+
+		private ISkinItem skinItem = null;
+
+		private SkinDestinationContainer skinDestinationContainer = null;
+
+		private int key = 0;
+
+		private bool flag = false;
+
+		private int num = 0;
+
+		private bool flag2 = false;
+
+		private List<ISkinItemGroup> groups = new List<ISkinItemGroup>();
+
+		private TrackBarSkinItem trackBarSkinItem = null;
+
+		private List<IControlSkinItemGroup> controlGroups = new List<IControlSkinItemGroup>();
+
+		private string localName;
+
+		public SkinBodyReader(XmlReader reader, Skin skin, Scene scene, ISkinItemGroup parentGroup)
 		{
-			reader.ReadToFollowing("body");
+			this.reader = reader;
+			this.skin = skin;
+			this.scene = scene;
+			this.parentGroup = parentGroup;
 		}
-		while (flag || reader.Read())
+
+		public void Read()
 		{
-			if (flag)
+			if (reader.NodeType != XmlNodeType.Element || !(reader.LocalName == "body"))
 			{
-				flag = false;
+				reader.ReadToFollowing("body");
 			}
-			if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "body")
+			while (flag || reader.Read())
 			{
-				break;
-			}
-			if (reader.NodeType == XmlNodeType.Element)
-			{
-				string localName = reader.LocalName;
-				if (!(localName == "elseif") && !(localName == "else"))
+				if (flag)
 				{
-					flag2 = false;
+					flag = false;
 				}
-				switch (reader.LocalName)
+				if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "body")
 				{
-				case "texture":
-				case "font":
-				{
-					if (!reader.MoveToFirstAttribute())
-					{
-						break;
-					}
-					string key2 = "";
-					string value = "";
-					do
-					{
-						localName = reader.LocalName;
-						if (!(localName == "id"))
-						{
-							if (localName == "src")
-							{
-								value = skin.GetFilePath(reader.Value);
-							}
-						}
-						else
-						{
-							key2 = reader.Value;
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					if (reader.LocalName == "texture")
-					{
-						skin.Textures.Add(key2, value);
-					}
-					else if (reader.LocalName == "font")
-					{
-						skin.Fonts.Add(key2, value);
-					}
 					break;
 				}
-				case "sc_side":
-					if (!reader.MoveToFirstAttribute())
+				if (reader.NodeType == XmlNodeType.Element)
+				{
+					localName = reader.LocalName;
+					if (!(localName == "elseif") && !(localName == "else"))
 					{
+						flag2 = false;
+					}
+					switch (reader.LocalName)
+					{
+					case "texture":
+					case "font":
+						ReadTextureOrFont();
+						break;
+					case "sc_side":
+						ReadScratchSide();
+						break;
+					case "group":
+					case "button":
+					case "playarea":
+						ReadGroup();
+						break;
+					case "panel":
+						ReadPanel();
+						break;
+					case "trackbar":
+						ReadTrackBar();
+						break;
+					case "trackbar_thumb":
+						ReadTrackBarThumb();
+						break;
+					case "image":
+					case "number":
+					case "bargraph":
+					case "slider":
+					case "lanecover":
+					case "barline":
+					case "judge":
+					case "combo":
+						ReadDrawableItem();
+						break;
+					case "text":
+						ReadText();
+						break;
+					case "bga":
+						ReadBga();
+						break;
+					case "lane":
+						ReadLane();
+						break;
+					case "note":
+					case "ln_start":
+					case "ln_end":
+					case "ln_body":
+					case "ln_start_holding":
+					case "ln_end_holding":
+					case "ln_body_holding":
+					case "ln_start_released":
+					case "ln_end_released":
+					case "ln_body_released":
+						ReadNote();
+						break;
+					case "gauge":
+						ReadGauge();
+						break;
+					case "gauge_dst":
+					case "panel_dst":
+						ReadGroupDestination();
+						break;
+					case "dst":
+						ReadDestination();
+						break;
+					case "include":
+						ReadInclude();
+						break;
+					case "var":
+						ReadVar();
+						break;
+					case "set":
+						ReadSet();
+						break;
+					case "if":
+						ReadIf();
+						break;
+					case "elseif":
+					case "else":
+						ReadElse();
 						break;
 					}
-					do
-					{
-						localName = reader.LocalName;
-						if (!(localName == "p1"))
-						{
-							if (localName == "p2")
-							{
-								if (reader.Value == "right")
-								{
-									skin.Player2ScratchSide = ScratchSide.Right;
-								}
-								else if (reader.Value == "left")
-								{
-									skin.Player2ScratchSide = ScratchSide.Left;
-								}
-							}
-						}
-						else if (reader.Value == "right")
-						{
-							skin.Player1ScratchSide = ScratchSide.Right;
-						}
-						else if (reader.Value == "left")
-						{
-							skin.Player1ScratchSide = ScratchSide.Left;
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					break;
-				case "group":
-				case "button":
-				case "playarea":
+				}
+				else
 				{
-					string localName2 = reader.LocalName;
-					SkinItemGroupBase skinItemGroupBase;
-					if (localName2 == "button")
+					if (reader.NodeType != XmlNodeType.EndElement)
 					{
-						skinItemGroupBase = new ButtonSkinItem(skin);
+						continue;
+					}
+					ReadEndElement();
+				}
+			}
+		}
+
+		private void ReadEndElement()
+		{
+			switch (reader.LocalName)
+			{
+			case "panel":
+				if (groups.Count <= 0)
+				{
+					break;
+				}
+				if (groups[groups.Count - 1] is PanelSkinItem panelSkinItem3)
+				{
+					if (groups.Count >= 2)
+					{
+						panelSkinItem3.ParentGroup = groups[groups.Count - 2];
+						groups[groups.Count - 2].Items.Add(panelSkinItem3);
 					}
 					else
 					{
-						skinItemGroupBase = ((!(localName2 == "playarea")) ? ((SkinItemGroupBase)new SkinItemGroup(skin)) : ((SkinItemGroupBase)new PlayAreaSkinItem(skin)));
+						skin.Items.Add(panelSkinItem3);
 					}
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "id":
-								skinItemGroupBase.ID = reader.Value;
-								continue;
-							case "dst_timer":
-								skinItemGroupBase.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								continue;
-							case "loop":
-								skinItemGroupBase.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								continue;
-							case "condition":
-								AddConditions(skinItemGroupBase.Destination, reader.Value);
-								continue;
-							}
-							SkinItemGroupBase skinItemGroupBase2 = skinItemGroupBase;
-							if (skinItemGroupBase2 == null)
-							{
-								continue;
-							}
-							if (!(skinItemGroupBase2 is ButtonSkinItem buttonSkinItem))
-							{
-								if (skinItemGroupBase2 is PlayAreaSkinItem playAreaSkinItem)
-								{
-									PlayAreaSkinItem playAreaSkinItem2 = playAreaSkinItem;
-									switch (reader.LocalName)
-									{
-									case "side":
-										playAreaSkinItem2.Side = skin.GetIntValue(reader.Value);
-										break;
-									case "range_x":
-										playAreaSkinItem2.RangeX = skin.GetIntValue(reader.Value);
-										break;
-									case "range_y":
-										playAreaSkinItem2.RangeY = skin.GetIntValue(reader.Value);
-										break;
-									}
-								}
-								continue;
-							}
-							ButtonSkinItem buttonSkinItem2 = buttonSkinItem;
-							switch (reader.LocalName)
-							{
-							case "command":
-								buttonSkinItem2.Command = reader.Value;
-								if (!string.IsNullOrEmpty(buttonSkinItem2.Command))
-								{
-									Action<double> action = scene?.GetButtonCommandAction(buttonSkinItem2.Command);
-									if (action == null)
-									{
-										action = skin.GetButtonCommandAction(buttonSkinItem2.Command);
-									}
-									if (action == null)
-									{
-										action = ButtonCommands.GetAction(buttonSkinItem2.Command);
-									}
-									if (action != null)
-									{
-										buttonSkinItem2.CommandAction = action;
-									}
-								}
-								break;
-							case "keyrepeat":
-							{
-								if (bool.TryParse(reader.Value, out var result7))
-								{
-									buttonSkinItem2.IsKeyRepeatEnable = result7;
-								}
-								break;
-							}
-							case "fallthrough":
-							{
-								if (bool.TryParse(reader.Value, out var result6))
-								{
-									buttonSkinItem2.AllowFallThrough = result6;
-								}
-								break;
-							}
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					groups.Add(skinItemGroupBase);
+					skin.PanelManager.Add(panelSkinItem3);
+				}
+				groups.RemoveAt(groups.Count - 1);
+				if (controlGroups[controlGroups.Count - 1] is PanelSkinItem control)
+				{
+					controlGroups.RemoveAt(controlGroups.Count - 1);
+					AddControlReference(control);
+				}
+				break;
+			case "button":
+				if (groups.Count <= 0)
+				{
 					break;
 				}
-				case "panel":
+				if (groups[groups.Count - 1] is ButtonSkinItem buttonSkinItem3)
 				{
-					_ = reader.LocalName;
-					PanelSkinItem panelSkinItem = new PanelSkinItem(skin);
-					if (reader.MoveToFirstAttribute())
+					AddControlReference(buttonSkinItem3);
+					if (groups.Count >= 2)
 					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "id":
-								panelSkinItem.ID = reader.Value;
-								break;
-							case "panel_group":
-								panelSkinItem.PanelGroup = reader.Value;
-								break;
-							case "fallthrough":
-							{
-								if (bool.TryParse(reader.Value, out var result9))
-								{
-									panelSkinItem.AllowFallThrough = result9;
-								}
-								break;
-							}
-							case "keepopen":
-							{
-								if (bool.TryParse(reader.Value, out var result8))
-								{
-									panelSkinItem.KeepOpen = result8;
-								}
-								break;
-							}
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
+						buttonSkinItem3.ParentGroup = groups[groups.Count - 2];
+						groups[groups.Count - 2].Items.Add(buttonSkinItem3);
 					}
-					groups.Add(panelSkinItem);
-					controlGroups.Add(panelSkinItem);
+					else
+					{
+						skin.Items.Add(buttonSkinItem3);
+					}
+				}
+				groups.RemoveAt(groups.Count - 1);
+				break;
+			case "group":
+				if (groups.Count <= 0)
+				{
 					break;
 				}
-				case "trackbar":
-					if (trackBarSkinItem != null)
-					{
-						break;
-					}
-					trackBarSkinItem = new TrackBarSkinItem(skin);
-					if (!reader.MoveToFirstAttribute())
-					{
-						break;
-					}
-					do
-					{
-						switch (reader.LocalName)
-						{
-						case "id":
-							trackBarSkinItem.ID = reader.Value;
-							break;
-						case "dst_timer":
-							trackBarSkinItem.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-							break;
-						case "loop":
-							trackBarSkinItem.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-							break;
-						case "condition":
-							AddConditions(trackBarSkinItem.Destination, reader.Value);
-							break;
-						case "max":
-						{
-							if (double.TryParse(reader.Value, out var result3))
-							{
-								trackBarSkinItem.Max = result3;
-							}
-							break;
-						}
-						case "min":
-						{
-							if (double.TryParse(reader.Value, out var result2))
-							{
-								trackBarSkinItem.Min = result2;
-							}
-							break;
-						}
-						case "start":
-						case "end":
-						{
-							CornerPosition? cornerPosition = null;
-							switch (reader.Value)
-							{
-							case "top_left":
-								cornerPosition = CornerPosition.TopLeft;
-								break;
-							case "top_right":
-								cornerPosition = CornerPosition.TopRight;
-								break;
-							case "bottom_left":
-								cornerPosition = CornerPosition.BottomLeft;
-								break;
-							case "bottom_right":
-								cornerPosition = CornerPosition.BottomRight;
-								break;
-							}
-							if (cornerPosition.HasValue)
-							{
-								if (reader.LocalName == "start")
-								{
-									trackBarSkinItem.StartPosition = cornerPosition.Value;
-								}
-								else if (reader.LocalName == "end")
-								{
-									trackBarSkinItem.EndPosition = cornerPosition.Value;
-								}
-							}
-							break;
-						}
-						case "value":
-						{
-							trackBarSkinItem.NumberID = reader.Value;
-							ValueCommand<double> valueCommand = scene?.GetTrackBarCommand(trackBarSkinItem.NumberID);
-							if (valueCommand == null)
-							{
-								valueCommand = TrackBarCommands.GetCommand(trackBarSkinItem.NumberID);
-							}
-							if (valueCommand != null)
-							{
-								trackBarSkinItem.ValueCommand = valueCommand;
-							}
-							break;
-						}
-						case "apply":
-							if (reader.Value == "drag")
-							{
-								trackBarSkinItem.ApplyTiming = TrackBarApplyTiming.Drag;
-							}
-							else if (reader.Value == "release")
-							{
-								trackBarSkinItem.ApplyTiming = TrackBarApplyTiming.Release;
-							}
-							break;
-						case "readonly":
-							if (reader.Value == "true")
-							{
-								trackBarSkinItem.IsReadOnly = true;
-							}
-							else
-							{
-								trackBarSkinItem.IsReadOnly = false;
-							}
-							break;
-						case "step":
-						{
-							if (double.TryParse(reader.Value, out var result))
-							{
-								trackBarSkinItem.Step = result;
-							}
-							break;
-						}
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					break;
-				case "trackbar_thumb":
+				if (groups[groups.Count - 1] is SkinItemGroup skinItemGroup)
 				{
-					if (trackBarSkinItem == null)
+					if (groups.Count >= 2)
 					{
-						break;
+						skinItemGroup.ParentGroup = groups[groups.Count - 2];
+						groups[groups.Count - 2].Items.Add(skinItemGroup);
 					}
-					TrackBarThumbSkinItem trackBarThumbSkinItem = new TrackBarThumbSkinItem(skin, trackBarSkinItem);
-					if (reader.MoveToFirstAttribute())
+					else
 					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "id":
-								trackBarThumbSkinItem.ID = reader.Value;
-								break;
-							case "dst_timer":
-								trackBarThumbSkinItem.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								trackBarThumbSkinItem.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "condition":
-								AddConditions(trackBarThumbSkinItem.Destination, reader.Value);
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
+						skin.Items.Add(skinItemGroup);
 					}
-					groups.Add(trackBarThumbSkinItem);
+				}
+				groups.RemoveAt(groups.Count - 1);
+				break;
+			case "playarea":
+				if (groups.Count <= 0)
+				{
 					break;
 				}
-				case "image":
-				case "number":
-				case "bargraph":
-				case "slider":
-				case "lanecover":
-				case "barline":
-				case "judge":
-				case "combo":
+				if (groups[groups.Count - 1] is PlayAreaSkinItem playAreaSkinItem3)
 				{
-					ImageSkinItemBase imageSkinItemBase = reader.LocalName switch
+					if (groups.Count >= 2)
 					{
-						"number" => (ImageSkinItemBase)new NumberSkinItem(skin), 
-						"bargraph" => new BarGraphSkinItem(skin), 
-						"slider" => new SliderSkinItem(skin), 
-						"lanecover" => new LaneCoverSkinItem(skin), 
-						"barline" => new BarlineSkinItem(skin), 
-						"judge" => new JudgeSkinItem(skin), 
-						"combo" => new ComboSkinItem(skin), 
-						_ => new ImageSkinItem(skin), 
-					};
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "id":
-								imageSkinItemBase.ID = reader.Value;
-								break;
-							case "texture":
-								imageSkinItemBase.TextureID = reader.Value;
-								break;
-							case "x":
-								imageSkinItemBase.X = skin.GetIntValue(reader.Value);
-								break;
-							case "y":
-								imageSkinItemBase.Y = skin.GetIntValue(reader.Value);
-								break;
-							case "width":
-								imageSkinItemBase.Width = skin.GetIntValue(reader.Value);
-								break;
-							case "height":
-								imageSkinItemBase.Height = skin.GetIntValue(reader.Value);
-								break;
-							case "div_x":
-								imageSkinItemBase.DivisionX = skin.GetIntValue(reader.Value);
-								break;
-							case "div_y":
-								imageSkinItemBase.DivisionY = skin.GetIntValue(reader.Value);
-								break;
-							case "cycle":
-								imageSkinItemBase.Cycle = skin.GetIntValue(reader.Value);
-								break;
-							case "div_timer":
-								imageSkinItemBase.DivisionTimer = ConvertTimerString(reader.Value);
-								break;
-							case "dst_timer":
-								imageSkinItemBase.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								imageSkinItemBase.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "blend":
-								if (blendTypeDict.ContainsKey(reader.Value))
-								{
-									imageSkinItemBase.Destination.Blend = blendTypeDict[reader.Value];
-								}
-								break;
-							case "filter":
-								localName = reader.Value;
-								if (!(localName == "point"))
-								{
-									if (localName == "linear")
-									{
-										imageSkinItemBase.Destination.Filter = SamplerType.Linear;
-									}
-								}
-								else
-								{
-									imageSkinItemBase.Destination.Filter = SamplerType.Point;
-								}
-								break;
-							case "condition":
-								AddConditions(imageSkinItemBase.Destination, reader.Value);
-								break;
-							case "value":
-								if (imageSkinItemBase is NumberSkinItemBase numberSkinItemBase)
-								{
-									numberSkinItemBase.NumberID = reader.Value;
-								}
-								else if (imageSkinItemBase is BarGraphSkinItem barGraphSkinItem)
-								{
-									barGraphSkinItem.NumberID = reader.Value;
-								}
-								else if (imageSkinItemBase is SliderSkinItem sliderSkinItem)
-								{
-									sliderSkinItem.NumberID = reader.Value;
-								}
-								break;
-							case "align":
-								if (imageSkinItemBase is NumberSkinItemBase numberSkinItemBase5)
-								{
-									switch (reader.Value)
-									{
-									case "left":
-										numberSkinItemBase5.Align = NumberAlign.Left;
-										break;
-									case "center":
-										numberSkinItemBase5.Align = NumberAlign.Center;
-										break;
-									case "right":
-										numberSkinItemBase5.Align = NumberAlign.Right;
-										break;
-									}
-								}
-								break;
-							case "digit":
-								if (imageSkinItemBase is NumberSkinItemBase numberSkinItemBase4)
-								{
-									numberSkinItemBase4.Digit = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "space":
-								if (imageSkinItemBase is NumberSkinItemBase numberSkinItemBase3)
-								{
-									numberSkinItemBase3.Space = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "overflow":
-								if (!(imageSkinItemBase is NumberSkinItemBase numberSkinItemBase2))
-								{
-									break;
-								}
-								localName = reader.Value;
-								if (!(localName == "hidden"))
-								{
-									if (localName == "stop")
-									{
-										numberSkinItemBase2.Overflow = NumberOverflow.CounterStop;
-									}
-								}
-								else
-								{
-									numberSkinItemBase2.Overflow = NumberOverflow.Hidden;
-								}
-								break;
-							case "max":
-								if (imageSkinItemBase is BarGraphSkinItem barGraphSkinItem3)
-								{
-									barGraphSkinItem3.Max = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is SliderSkinItem sliderSkinItem3)
-								{
-									sliderSkinItem3.Max = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "min":
-								if (imageSkinItemBase is BarGraphSkinItem barGraphSkinItem2)
-								{
-									barGraphSkinItem2.Min = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is SliderSkinItem sliderSkinItem2)
-								{
-									sliderSkinItem2.Min = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "img_mode":
-								if (!(imageSkinItemBase is BarGraphSkinItem barGraphSkinItem6))
-								{
-									break;
-								}
-								localName = reader.Value;
-								if (!(localName == "stretch"))
-								{
-									if (localName == "cut")
-									{
-										barGraphSkinItem6.ImageMode = BarGraphImageMode.Cut;
-									}
-								}
-								else
-								{
-									barGraphSkinItem6.ImageMode = BarGraphImageMode.Stretch;
-								}
-								break;
-							case "direction":
-								if (imageSkinItemBase is BarGraphSkinItem barGraphSkinItem5)
-								{
-									switch (reader.Value)
-									{
-									case "right":
-										barGraphSkinItem5.Direction = BarGraphDirection.Right;
-										break;
-									case "left":
-										barGraphSkinItem5.Direction = BarGraphDirection.Left;
-										break;
-									case "up":
-										barGraphSkinItem5.Direction = BarGraphDirection.Up;
-										break;
-									case "down":
-										barGraphSkinItem5.Direction = BarGraphDirection.Down;
-										break;
-									}
-								}
-								break;
-							case "round":
-							{
-								if (imageSkinItemBase is BarGraphSkinItem barGraphSkinItem4 && TryGetRoundMethod(reader.Value, out var method6))
-								{
-									barGraphSkinItem4.RoundMethod = method6;
-								}
-								break;
-							}
-							case "start_x":
-								if (imageSkinItemBase is SliderSkinItem)
-								{
-									((SliderSkinItem)imageSkinItemBase).StartX = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is LaneCoverSkinItem)
-								{
-									((LaneCoverSkinItem)imageSkinItemBase).StartX = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "start_y":
-								if (imageSkinItemBase is SliderSkinItem)
-								{
-									((SliderSkinItem)imageSkinItemBase).StartY = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is LaneCoverSkinItem)
-								{
-									((LaneCoverSkinItem)imageSkinItemBase).StartY = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "end_x":
-								if (imageSkinItemBase is SliderSkinItem)
-								{
-									((SliderSkinItem)imageSkinItemBase).EndX = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is LaneCoverSkinItem)
-								{
-									((LaneCoverSkinItem)imageSkinItemBase).EndX = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "end_y":
-								if (imageSkinItemBase is SliderSkinItem)
-								{
-									((SliderSkinItem)imageSkinItemBase).EndY = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is LaneCoverSkinItem)
-								{
-									((LaneCoverSkinItem)imageSkinItemBase).EndY = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "side":
-								if (imageSkinItemBase is BarlineSkinItem)
-								{
-									((BarlineSkinItem)imageSkinItemBase).Side = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is LaneCoverSkinItem)
-								{
-									((LaneCoverSkinItem)imageSkinItemBase).Side = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "index":
-								if (imageSkinItemBase is JudgeSkinItem)
-								{
-									((JudgeSkinItem)imageSkinItemBase).JudgeID = skin.GetIntValue(reader.Value);
-								}
-								else if (imageSkinItemBase is ComboSkinItem)
-								{
-									((ComboSkinItem)imageSkinItemBase).JudgeID = skin.GetIntValue(reader.Value);
-								}
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
+						playAreaSkinItem3.ParentGroup = groups[groups.Count - 2];
+						groups[groups.Count - 2].Items.Add(playAreaSkinItem3);
 					}
-					skinItem = imageSkinItemBase;
-					break;
+					else
+					{
+						skin.Items.Add(playAreaSkinItem3);
+					}
 				}
-				case "text":
+				groups.RemoveAt(groups.Count - 1);
+				break;
+			case "trackbar":
+				if (trackBarSkinItem != null)
 				{
-					TextSkinItem textSkinItem = new TextSkinItem(skin);
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "font":
-								textSkinItem.FontID = reader.Value;
-								break;
-							case "value":
-								textSkinItem.TextID = reader.Value;
-								break;
-							case "align":
-								switch (reader.Value)
-								{
-								case "left":
-									textSkinItem.Align = TextAlign.Left;
-									break;
-								case "center":
-									textSkinItem.Align = TextAlign.Center;
-									break;
-								case "right":
-									textSkinItem.Align = TextAlign.Right;
-									break;
-								}
-								break;
-							case "overflow":
-								switch (reader.Value)
-								{
-								case "visible":
-									textSkinItem.Overflow = TextOverflow.Visible;
-									break;
-								case "hidden":
-									textSkinItem.Overflow = TextOverflow.Hidden;
-									break;
-								case "stretch":
-									textSkinItem.Overflow = TextOverflow.Stretch;
-									break;
-								}
-								break;
-							case "dst_timer":
-								textSkinItem.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								textSkinItem.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "blend":
-								if (blendTypeDict.ContainsKey(reader.Value))
-								{
-									textSkinItem.Destination.Blend = blendTypeDict[reader.Value];
-								}
-								break;
-							case "filter":
-								localName = reader.Value;
-								if (!(localName == "point"))
-								{
-									if (localName == "linear")
-									{
-										textSkinItem.Destination.Filter = SamplerType.Linear;
-									}
-								}
-								else
-								{
-									textSkinItem.Destination.Filter = SamplerType.Point;
-								}
-								break;
-							case "condition":
-								AddConditions(textSkinItem.Destination, reader.Value);
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					skinItem = textSkinItem;
-					break;
+					AddSkinItem(trackBarSkinItem);
+					AddControlReference(trackBarSkinItem);
 				}
-				case "bga":
+				trackBarSkinItem = null;
+				break;
+			case "trackbar_thumb":
+				if (groups.Count > 0)
 				{
-					BgaSkinItem bgaSkinItem = new BgaSkinItem(skin);
-					if (reader.MoveToFirstAttribute())
+					if (trackBarSkinItem != null && groups[groups.Count - 1] is TrackBarThumbSkinItem thumb)
 					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "dst_timer":
-								bgaSkinItem.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								bgaSkinItem.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "blend":
-								if (blendTypeDict.ContainsKey(reader.Value))
-								{
-									bgaSkinItem.Destination.Blend = blendTypeDict[reader.Value];
-								}
-								break;
-							case "filter":
-								localName = reader.Value;
-								if (!(localName == "point"))
-								{
-									if (localName == "linear")
-									{
-										bgaSkinItem.Destination.Filter = SamplerType.Linear;
-									}
-								}
-								else
-								{
-									bgaSkinItem.Destination.Filter = SamplerType.Point;
-								}
-								break;
-							case "condition":
-								AddConditions(bgaSkinItem.Destination, reader.Value);
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					skinItem = bgaSkinItem;
-					break;
-				}
-				case "lane":
-				{
-					LaneSkinItem laneSkinItem = new LaneSkinItem(skin);
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "index":
-								laneSkinItem.LaneIndex = skin.GetIntValue(reader.Value);
-								break;
-							case "dst_timer":
-								laneSkinItem.Destination.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								laneSkinItem.Destination.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "blend":
-								if (blendTypeDict.ContainsKey(reader.Value))
-								{
-									laneSkinItem.Destination.Blend = blendTypeDict[reader.Value];
-								}
-								break;
-							case "filter":
-								localName = reader.Value;
-								if (!(localName == "point"))
-								{
-									if (localName == "linear")
-									{
-										laneSkinItem.Destination.Filter = SamplerType.Linear;
-									}
-								}
-								else
-								{
-									laneSkinItem.Destination.Filter = SamplerType.Point;
-								}
-								break;
-							case "condition":
-								AddConditions(laneSkinItem.Destination, reader.Value);
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					skinItem = laneSkinItem;
-					break;
-				}
-				case "note":
-				case "ln_start":
-				case "ln_end":
-				case "ln_body":
-				case "ln_start_holding":
-				case "ln_end_holding":
-				case "ln_body_holding":
-				case "ln_start_released":
-				case "ln_end_released":
-				case "ln_body_released":
-				{
-					if (!(skinItem is LaneSkinItem))
-					{
-						break;
-					}
-					NoteSource noteSource = new NoteSource(skin);
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "texture":
-								noteSource.TextureID = reader.Value;
-								break;
-							case "x":
-								noteSource.X = skin.GetIntValue(reader.Value);
-								break;
-							case "y":
-								noteSource.Y = skin.GetIntValue(reader.Value);
-								break;
-							case "width":
-								noteSource.Width = skin.GetIntValue(reader.Value);
-								break;
-							case "height":
-								noteSource.Height = skin.GetIntValue(reader.Value);
-								break;
-							case "div_x":
-								noteSource.DivisionX = skin.GetIntValue(reader.Value);
-								break;
-							case "div_y":
-								noteSource.DivisionY = skin.GetIntValue(reader.Value);
-								break;
-							case "alpha":
-								noteSource.A = skin.GetIntValue(reader.Value);
-								break;
-							case "r":
-								noteSource.R = skin.GetIntValue(reader.Value);
-								break;
-							case "g":
-								noteSource.G = skin.GetIntValue(reader.Value);
-								break;
-							case "b":
-								noteSource.B = skin.GetIntValue(reader.Value);
-								break;
-							case "cycle":
-								noteSource.Cycle = skin.GetIntValue(reader.Value);
-								break;
-							case "div_timer":
-								noteSource.DivisionTimer = reader.Value;
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					((LaneSkinItem)skinItem).NoteSources.Add(reader.LocalName, noteSource);
-					break;
-				}
-				case "gauge":
-				{
-					GaugeSkinItem gaugeSkinItem = new GaugeSkinItem(skin);
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "texture":
-								gaugeSkinItem.TextureID = reader.Value;
-								break;
-							case "x":
-								gaugeSkinItem.X = skin.GetIntValue(reader.Value);
-								break;
-							case "y":
-								gaugeSkinItem.Y = skin.GetIntValue(reader.Value);
-								break;
-							case "width":
-								gaugeSkinItem.Width = skin.GetIntValue(reader.Value);
-								break;
-							case "height":
-								gaugeSkinItem.Height = skin.GetIntValue(reader.Value);
-								break;
-							case "div_x":
-								gaugeSkinItem.DivisionX = skin.GetIntValue(reader.Value);
-								break;
-							case "div_y":
-								gaugeSkinItem.DivisionY = skin.GetIntValue(reader.Value);
-								break;
-							case "cycle":
-								gaugeSkinItem.Cycle = skin.GetIntValue(reader.Value);
-								break;
-							case "div_timer":
-								gaugeSkinItem.DivisionTimer = reader.Value;
-								break;
-							case "div_gauge":
-								gaugeSkinItem.GaugeDivision = skin.GetIntValue(reader.Value);
-								break;
-							case "border":
-								gaugeSkinItem.Border = skin.GetIntValue(reader.Value);
-								break;
-							case "direction":
-								switch (reader.Value)
-								{
-								case "right":
-									gaugeSkinItem.Direction = BarGraphDirection.Right;
-									break;
-								case "left":
-									gaugeSkinItem.Direction = BarGraphDirection.Left;
-									break;
-								case "up":
-									gaugeSkinItem.Direction = BarGraphDirection.Up;
-									break;
-								case "down":
-									gaugeSkinItem.Direction = BarGraphDirection.Down;
-									break;
-								}
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					skinItem = gaugeSkinItem;
-					break;
-				}
-				case "gauge_dst":
-				case "panel_dst":
-				{
-					string localName3 = reader.LocalName;
-					SkinDestinationContainer skinDestinationContainer2 = new SkinDestinationContainer();
-					key = 0;
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "index":
-								if (localName3 == "gauge_dst")
-								{
-									key = skin.GetIntValue(reader.Value);
-								}
-								break;
-							case "state":
-								if (localName3 == "panel_dst")
-								{
-									key = ((reader.Value == "open") ? 1 : 0);
-								}
-								break;
-							case "dst_timer":
-								skinDestinationContainer2.DestinationTimer = ConvertTimerString(reader.Value);
-								break;
-							case "loop":
-								skinDestinationContainer2.DestinationLoop = skin.GetIntValue(reader.Value);
-								break;
-							case "blend":
-								if (blendTypeDict.ContainsKey(reader.Value))
-								{
-									skinDestinationContainer2.Blend = blendTypeDict[reader.Value];
-								}
-								break;
-							case "filter":
-								localName = reader.Value;
-								if (!(localName == "point"))
-								{
-									if (localName == "linear")
-									{
-										skinDestinationContainer2.Filter = SamplerType.Linear;
-									}
-								}
-								else
-								{
-									skinDestinationContainer2.Filter = SamplerType.Point;
-								}
-								break;
-							case "condition":
-								AddConditions(skinDestinationContainer2, reader.Value);
-								break;
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					skinDestinationContainer = skinDestinationContainer2;
-					break;
-				}
-				case "dst":
-				{
-					List<SkinDestination> list2 = null;
-					if (trackBarSkinItem?.Thumb != null)
-					{
-						list2 = trackBarSkinItem.Destination.DestinationList;
-					}
-					else if (skinItem == null && groups.Count > 0)
-					{
-						if (groups[groups.Count - 1] is PanelSkinItem && skinDestinationContainer != null)
-						{
-							list2 = skinDestinationContainer.DestinationList;
-						}
-						else if (groups[groups.Count - 1] is SkinItemGroupBase skinItemGroupBase3)
-						{
-							list2 = skinItemGroupBase3.Destination.DestinationList;
-						}
-					}
-					else if (skinItem is SingleDestinationSkinItem singleDestinationSkinItem)
-					{
-						list2 = singleDestinationSkinItem.Destination.DestinationList;
-					}
-					else if (skinItem is MultipleDestinationSkinItem && skinDestinationContainer != null)
-					{
-						list2 = skinDestinationContainer.DestinationList;
-					}
-					if (list2 == null)
-					{
-						break;
-					}
-					SkinDestination skinDestination = ((list2.Count > 0) ? new SkinDestination(list2[list2.Count - 1]) : new SkinDestination());
-					string text4 = null;
-					string text5 = null;
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							switch (reader.LocalName)
-							{
-							case "time":
-								skinDestination.Time = skin.GetIntValue(reader.Value);
-								break;
-							case "x":
-								skinDestination.X = skin.GetIntValue(reader.Value);
-								break;
-							case "y":
-								skinDestination.Y = skin.GetIntValue(reader.Value);
-								break;
-							case "width":
-								skinDestination.Width = skin.GetIntValue(reader.Value);
-								break;
-							case "height":
-								skinDestination.Height = skin.GetIntValue(reader.Value);
-								break;
-							case "alpha":
-								skinDestination.A = skin.GetIntValue(reader.Value);
-								break;
-							case "r":
-								skinDestination.R = skin.GetIntValue(reader.Value);
-								break;
-							case "g":
-								skinDestination.G = skin.GetIntValue(reader.Value);
-								break;
-							case "b":
-								skinDestination.B = skin.GetIntValue(reader.Value);
-								break;
-							case "rotate":
-								skinDestination.Rotate = double.Parse(reader.Value);
-								break;
-							case "pivot_x":
-								text4 = reader.Value;
-								break;
-							case "pivot_y":
-								text5 = reader.Value;
-								break;
-							case "round":
-							{
-								if (TryGetRoundMethod(reader.Value, out var method5))
-								{
-									skinDestination.RoundMethodX = method5;
-									skinDestination.RoundMethodY = method5;
-									skinDestination.RoundMethodWidth = method5;
-									skinDestination.RoundMethodHeight = method5;
-								}
-								break;
-							}
-							case "round_x":
-							{
-								if (TryGetRoundMethod(reader.Value, out var method4))
-								{
-									skinDestination.RoundMethodX = method4;
-								}
-								break;
-							}
-							case "round_y":
-							{
-								if (TryGetRoundMethod(reader.Value, out var method3))
-								{
-									skinDestination.RoundMethodY = method3;
-								}
-								break;
-							}
-							case "round_width":
-							{
-								if (TryGetRoundMethod(reader.Value, out var method2))
-								{
-									skinDestination.RoundMethodWidth = method2;
-								}
-								break;
-							}
-							case "round_height":
-							{
-								if (TryGetRoundMethod(reader.Value, out var method))
-								{
-									skinDestination.RoundMethodHeight = method;
-								}
-								break;
-							}
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					switch (text4)
-					{
-					case "left":
-						skinDestination.PivotXType = PivotType.Relative;
-						skinDestination.PivotX = 0.0;
-						break;
-					case "center":
-						skinDestination.PivotXType = PivotType.Relative;
-						skinDestination.PivotX = 0.5;
-						break;
-					case "right":
-						skinDestination.PivotXType = PivotType.Relative;
-						skinDestination.PivotX = 1.0;
-						break;
-					default:
-						if (text4.Length > 1 && text4.Substring(text4.Length - 1) == "%")
-						{
-							skinDestination.PivotXType = PivotType.Relative;
-							skinDestination.PivotX = double.Parse(text4.Substring(0, text4.Length - 1)) / 100.0;
-						}
-						else
-						{
-							skinDestination.PivotXType = PivotType.Absolute;
-							skinDestination.PivotX = double.Parse(text4);
-						}
-						break;
-					case null:
-						break;
-					}
-					switch (text5)
-					{
-					case "top":
-						skinDestination.PivotYType = PivotType.Relative;
-						skinDestination.PivotY = 0.0;
-						break;
-					case "center":
-						skinDestination.PivotYType = PivotType.Relative;
-						skinDestination.PivotY = 0.5;
-						break;
-					case "bottom":
-						skinDestination.PivotYType = PivotType.Relative;
-						skinDestination.PivotY = 1.0;
-						break;
-					default:
-						if (text5.Length > 1 && text5.Substring(text5.Length - 1) == "%")
-						{
-							skinDestination.PivotYType = PivotType.Relative;
-							skinDestination.PivotY = double.Parse(text5.Substring(0, text5.Length - 1)) / 100.0;
-						}
-						else
-						{
-							skinDestination.PivotYType = PivotType.Absolute;
-							skinDestination.PivotY = double.Parse(text5);
-						}
-						break;
-					case null:
-						break;
-					}
-					list2.Add(skinDestination);
-					break;
-				}
-				case "include":
-				{
-					if (!reader.MoveToFirstAttribute())
-					{
-						break;
-					}
-					string path = "";
-					do
-					{
-						if (reader.LocalName == "src")
-						{
-							path = skin.GetFilePath(reader.Value);
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					if (!File.Exists(path))
-					{
-						break;
-					}
-					XmlReaderSettings settings = new XmlReaderSettings
-					{
-						IgnoreComments = true,
-						IgnoreWhitespace = true
-					};
-					using (FileStream input = new FileStream(path, FileMode.Open))
-					{
-						using XmlReader xmlReader = XmlReader.Create(input, settings);
-						bool flag3 = false;
-						xmlReader.ReadToFollowing("skin");
-						if (xmlReader.MoveToFirstAttribute())
-						{
-							do
-							{
-								if (xmlReader.LocalName == "type" && xmlReader.Value == "include")
-								{
-									flag3 = true;
-								}
-							}
-							while (xmlReader.MoveToNextAttribute());
-							xmlReader.MoveToElement();
-						}
-						if (flag3)
-						{
-							ISkinItemGroup parentGroup2 = null;
-							if (groups.Count > 0)
-							{
-								parentGroup2 = groups[groups.Count - 1];
-							}
-							else if (parentGroup != null)
-							{
-								parentGroup2 = parentGroup;
-							}
-							ReadSkinBody(xmlReader, skin, scene, parentGroup2);
-						}
-					}
-					break;
-				}
-				case "var":
-				{
-					if (!reader.MoveToFirstAttribute())
-					{
-						break;
-					}
-					string text = "";
-					string text2 = "";
-					string text3 = "";
-					do
-					{
-						switch (reader.LocalName)
-						{
-						case "id":
-							text = reader.Value;
-							break;
-						case "type":
-							text2 = reader.Value;
-							break;
-						case "value":
-							text3 = reader.Value;
-							break;
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					if (!string.IsNullOrEmpty(text) && !skin.intVars.ContainsKey(text) && !skin.boolVars.ContainsKey(text))
-					{
-						if (text2 == "bool")
-						{
-							skin.boolVars.Add(text, bool.TryParse(text3, out var result4) && result4);
-						}
-						else if (text2 == "int")
-						{
-							skin.intVars.Add(text, int.TryParse(text3, out var result5) ? result5 : 0);
-						}
-					}
-					break;
-				}
-				case "set":
-				{
-					if (!reader.MoveToFirstAttribute())
-					{
-						break;
-					}
-					string text6 = "";
-					string text7 = "";
-					do
-					{
-						localName = reader.LocalName;
-						if (!(localName == "id"))
-						{
-							if (localName == "value")
-							{
-								text7 = reader.Value;
-							}
-						}
-						else
-						{
-							text6 = reader.Value;
-						}
-					}
-					while (reader.MoveToNextAttribute());
-					reader.MoveToElement();
-					if (!string.IsNullOrEmpty(text6))
-					{
-						bool result11;
-						if (skin.intVars.ContainsKey(text6) && int.TryParse(text7, out var result10))
-						{
-							skin.intVars[text6] = result10;
-						}
-						else if (skin.boolVars.ContainsKey(text6) && bool.TryParse(text7, out result11))
-						{
-							skin.boolVars[text6] = result11;
-						}
-					}
-					break;
-				}
-				case "if":
-				{
-					List<string> list = new List<string>();
-					if (reader.MoveToFirstAttribute())
-					{
-						do
-						{
-							localName = reader.LocalName;
-							if (localName == "condition")
-							{
-								list.AddRange(reader.Value.Replace(" ", "").Split(','));
-							}
-						}
-						while (reader.MoveToNextAttribute());
-						reader.MoveToElement();
-					}
-					if (skin.CheckConditions(list))
-					{
-						num++;
-						break;
-					}
-					reader.Skip();
-					flag = true;
-					break;
-				}
-				case "elseif":
-				case "else":
-					if (flag2)
-					{
-						reader.Skip();
-						flag = true;
-						break;
-					}
-					if (!(reader.LocalName == "elseif"))
-					{
-						if (reader.LocalName == "else")
-						{
-							num++;
-						}
-						break;
-					}
-					goto case "if";
-				}
-			}
-			else
-			{
-				if (reader.NodeType != XmlNodeType.EndElement)
-				{
-					continue;
-				}
-				switch (reader.LocalName)
-				{
-				case "panel":
-					if (groups.Count <= 0)
-					{
-						break;
-					}
-					if (groups[groups.Count - 1] is PanelSkinItem panelSkinItem3)
-					{
-						if (groups.Count >= 2)
-						{
-							panelSkinItem3.ParentGroup = groups[groups.Count - 2];
-							groups[groups.Count - 2].Items.Add(panelSkinItem3);
-						}
-						else
-						{
-							skin.Items.Add(panelSkinItem3);
-						}
-						skin.PanelManager.Add(panelSkinItem3);
+						trackBarSkinItem.Thumb = thumb;
 					}
 					groups.RemoveAt(groups.Count - 1);
-					if (controlGroups[controlGroups.Count - 1] is PanelSkinItem control)
-					{
-						controlGroups.RemoveAt(controlGroups.Count - 1);
-						AddControlReference(control);
-					}
-					break;
-				case "button":
-					if (groups.Count <= 0)
-					{
-						break;
-					}
-					if (groups[groups.Count - 1] is ButtonSkinItem buttonSkinItem3)
-					{
-						AddControlReference(buttonSkinItem3);
-						if (groups.Count >= 2)
-						{
-							buttonSkinItem3.ParentGroup = groups[groups.Count - 2];
-							groups[groups.Count - 2].Items.Add(buttonSkinItem3);
-						}
-						else
-						{
-							skin.Items.Add(buttonSkinItem3);
-						}
-					}
-					groups.RemoveAt(groups.Count - 1);
-					break;
-				case "group":
-					if (groups.Count <= 0)
-					{
-						break;
-					}
-					if (groups[groups.Count - 1] is SkinItemGroup skinItemGroup)
-					{
-						if (groups.Count >= 2)
-						{
-							skinItemGroup.ParentGroup = groups[groups.Count - 2];
-							groups[groups.Count - 2].Items.Add(skinItemGroup);
-						}
-						else
-						{
-							skin.Items.Add(skinItemGroup);
-						}
-					}
-					groups.RemoveAt(groups.Count - 1);
-					break;
-				case "playarea":
-					if (groups.Count <= 0)
-					{
-						break;
-					}
-					if (groups[groups.Count - 1] is PlayAreaSkinItem playAreaSkinItem3)
-					{
-						if (groups.Count >= 2)
-						{
-							playAreaSkinItem3.ParentGroup = groups[groups.Count - 2];
-							groups[groups.Count - 2].Items.Add(playAreaSkinItem3);
-						}
-						else
-						{
-							skin.Items.Add(playAreaSkinItem3);
-						}
-					}
-					groups.RemoveAt(groups.Count - 1);
-					break;
-				case "trackbar":
-					if (trackBarSkinItem != null)
-					{
-						AddSkinItem(trackBarSkinItem);
-						AddControlReference(trackBarSkinItem);
-					}
-					trackBarSkinItem = null;
-					break;
-				case "trackbar_thumb":
-					if (groups.Count > 0)
-					{
-						if (trackBarSkinItem != null && groups[groups.Count - 1] is TrackBarThumbSkinItem thumb)
-						{
-							trackBarSkinItem.Thumb = thumb;
-						}
-						groups.RemoveAt(groups.Count - 1);
-					}
-					break;
-				case "image":
-				case "bargraph":
-				case "slider":
-				case "lanecover":
-				case "bga":
-				case "gauge":
-				case "text":
-					if (skinItem != null)
-					{
-						AddSkinItem(skinItem);
-					}
-					skinItem = null;
-					break;
-				case "number":
-					if (skinItem is NumberSkinItem numberSkinItem)
-					{
-						if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 10 == 0)
-						{
-							numberSkinItem.NumberType = 10;
-						}
-						else if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 11 == 0)
-						{
-							numberSkinItem.NumberType = 11;
-						}
-						else if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 24 == 0)
-						{
-							numberSkinItem.NumberType = 24;
-						}
-						AddSkinItem(numberSkinItem);
-					}
-					skinItem = null;
-					break;
-				case "barline":
-					if (skinItem is BarlineSkinItem { Side: var side } barlineSkinItem)
-					{
-						if (!skin.barlineRefs.ContainsKey(side))
-						{
-							skin.barlineRefs.Add(side, new BarlineItemReferenceCollection());
-						}
-						skin.barlineRefs[side].Add(new WeakReference<BarlineSkinItem>(barlineSkinItem));
-						AddSkinItem(barlineSkinItem);
-					}
-					skinItem = null;
-					break;
-				case "lane":
-					if (skinItem is LaneSkinItem laneSkinItem2 && laneSkinItem2.NoteSources.ContainsKey("note"))
-					{
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_start"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_start", laneSkinItem2.NoteSources["note"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_end"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_end", laneSkinItem2.NoteSources["note"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_body"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_body", laneSkinItem2.NoteSources["note"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_start_holding"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_start_holding", laneSkinItem2.NoteSources["ln_start"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_end_holding"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_end_holding", laneSkinItem2.NoteSources["ln_end"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_body_holding"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_body_holding", laneSkinItem2.NoteSources["ln_body"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_start_released"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_start_released", laneSkinItem2.NoteSources["ln_start"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_end_released"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_end_released", laneSkinItem2.NoteSources["ln_end"]);
-						}
-						if (!laneSkinItem2.NoteSources.ContainsKey("ln_body_released"))
-						{
-							laneSkinItem2.NoteSources.Add("ln_body_released", laneSkinItem2.NoteSources["ln_body"]);
-						}
-						if (!skin.noteRefs.ContainsKey(laneSkinItem2.LaneIndex))
-						{
-							skin.noteRefs.Add(laneSkinItem2.LaneIndex, new LaneItemReferenceCollection());
-						}
-						skin.noteRefs[laneSkinItem2.LaneIndex].Add(new WeakReference<LaneSkinItem>(laneSkinItem2));
-						AddSkinItem(laneSkinItem2);
-					}
-					skinItem = null;
-					break;
-				case "judge":
-					if (skinItem is JudgeSkinItem judgeSkinItem)
-					{
-						AddSkinItem(judgeSkinItem);
-						if (!skin.judgeRefs.ContainsKey(judgeSkinItem.JudgeID))
-						{
-							skin.judgeRefs.Add(judgeSkinItem.JudgeID, judgeSkinItem);
-						}
-					}
-					skinItem = null;
-					break;
-				case "combo":
-					if (skinItem is ComboSkinItem comboSkinItem)
-					{
-						if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 10 == 0)
-						{
-							comboSkinItem.NumberType = 10;
-						}
-						else if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 11 == 0)
-						{
-							comboSkinItem.NumberType = 11;
-						}
-						else if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 24 == 0)
-						{
-							comboSkinItem.NumberType = 24;
-						}
-						AddSkinItem(comboSkinItem);
-						if (!skin.comboRefs.ContainsKey(comboSkinItem.JudgeID))
-						{
-							skin.comboRefs.Add(comboSkinItem.JudgeID, comboSkinItem);
-						}
-					}
-					skinItem = null;
-					break;
-				case "gauge_dst":
-					if (skinDestinationContainer != null)
-					{
-						((MultipleDestinationSkinItem)skinItem).Destinations.Add(key, skinDestinationContainer);
-					}
-					skinDestinationContainer = null;
-					key = 0;
-					break;
-				case "panel_dst":
-					if (skinDestinationContainer != null && groups[groups.Count - 1] is PanelSkinItem panelSkinItem2)
-					{
-						panelSkinItem2.Destinations[key] = skinDestinationContainer;
-					}
-					skinDestinationContainer = null;
-					key = 0;
-					break;
-				case "if":
-				case "elseif":
-				case "else":
-					num--;
-					flag2 = true;
-					break;
 				}
+				break;
+			case "image":
+			case "bargraph":
+			case "slider":
+			case "lanecover":
+			case "bga":
+			case "gauge":
+			case "text":
+				if (skinItem != null)
+				{
+					AddSkinItem(skinItem);
+				}
+				skinItem = null;
+				break;
+			case "number":
+				if (skinItem is NumberSkinItem numberSkinItem)
+				{
+					if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 10 == 0)
+					{
+						numberSkinItem.NumberType = 10;
+					}
+					else if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 11 == 0)
+					{
+						numberSkinItem.NumberType = 11;
+					}
+					else if (numberSkinItem.DivisionX * numberSkinItem.DivisionY % 24 == 0)
+					{
+						numberSkinItem.NumberType = 24;
+					}
+					AddSkinItem(numberSkinItem);
+				}
+				skinItem = null;
+				break;
+			case "barline":
+				if (skinItem is BarlineSkinItem { Side: var side } barlineSkinItem)
+				{
+					if (!skin.barlineRefs.ContainsKey(side))
+					{
+						skin.barlineRefs.Add(side, new BarlineItemReferenceCollection());
+					}
+					skin.barlineRefs[side].Add(new WeakReference<BarlineSkinItem>(barlineSkinItem));
+					AddSkinItem(barlineSkinItem);
+				}
+				skinItem = null;
+				break;
+			case "lane":
+				if (skinItem is LaneSkinItem laneSkinItem2 && laneSkinItem2.NoteSources.ContainsKey("note"))
+				{
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_start"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_start", laneSkinItem2.NoteSources["note"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_end"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_end", laneSkinItem2.NoteSources["note"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_body"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_body", laneSkinItem2.NoteSources["note"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_start_holding"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_start_holding", laneSkinItem2.NoteSources["ln_start"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_end_holding"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_end_holding", laneSkinItem2.NoteSources["ln_end"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_body_holding"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_body_holding", laneSkinItem2.NoteSources["ln_body"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_start_released"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_start_released", laneSkinItem2.NoteSources["ln_start"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_end_released"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_end_released", laneSkinItem2.NoteSources["ln_end"]);
+					}
+					if (!laneSkinItem2.NoteSources.ContainsKey("ln_body_released"))
+					{
+						laneSkinItem2.NoteSources.Add("ln_body_released", laneSkinItem2.NoteSources["ln_body"]);
+					}
+					if (!skin.noteRefs.ContainsKey(laneSkinItem2.LaneIndex))
+					{
+						skin.noteRefs.Add(laneSkinItem2.LaneIndex, new LaneItemReferenceCollection());
+					}
+					skin.noteRefs[laneSkinItem2.LaneIndex].Add(new WeakReference<LaneSkinItem>(laneSkinItem2));
+					AddSkinItem(laneSkinItem2);
+				}
+				skinItem = null;
+				break;
+			case "judge":
+				if (skinItem is JudgeSkinItem judgeSkinItem)
+				{
+					AddSkinItem(judgeSkinItem);
+					if (!skin.judgeRefs.ContainsKey(judgeSkinItem.JudgeID))
+					{
+						skin.judgeRefs.Add(judgeSkinItem.JudgeID, judgeSkinItem);
+					}
+				}
+				skinItem = null;
+				break;
+			case "combo":
+				if (skinItem is ComboSkinItem comboSkinItem)
+				{
+					if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 10 == 0)
+					{
+						comboSkinItem.NumberType = 10;
+					}
+					else if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 11 == 0)
+					{
+						comboSkinItem.NumberType = 11;
+					}
+					else if (comboSkinItem.DivisionX * comboSkinItem.DivisionY % 24 == 0)
+					{
+						comboSkinItem.NumberType = 24;
+					}
+					AddSkinItem(comboSkinItem);
+					if (!skin.comboRefs.ContainsKey(comboSkinItem.JudgeID))
+					{
+						skin.comboRefs.Add(comboSkinItem.JudgeID, comboSkinItem);
+					}
+				}
+				skinItem = null;
+				break;
+			case "gauge_dst":
+				if (skinDestinationContainer != null)
+				{
+					((MultipleDestinationSkinItem)skinItem).Destinations.Add(key, skinDestinationContainer);
+				}
+				skinDestinationContainer = null;
+				key = 0;
+				break;
+			case "panel_dst":
+				if (skinDestinationContainer != null && groups[groups.Count - 1] is PanelSkinItem panelSkinItem2)
+				{
+					panelSkinItem2.Destinations[key] = skinDestinationContainer;
+				}
+				skinDestinationContainer = null;
+				key = 0;
+				break;
+			case "if":
+			case "elseif":
+			case "else":
+				num--;
+				flag2 = true;
+				break;
 			}
 		}
-		void AddConditions(SkinDestinationContainer destinationContainer, string condition)
+
+		private void AddConditions(SkinDestinationContainer destinationContainer, string condition)
 		{
 			string[] array = condition.Replace(" ", "").Split(',');
 			foreach (string text8 in array)
@@ -1740,7 +478,8 @@ public partial class Skin
 				}
 			}
 		}
-		void AddControlReference(IControlSkinItem controlSkinItem)
+
+		private void AddControlReference(IControlSkinItem controlSkinItem)
 		{
 			if (controlGroups.Count > 0)
 			{
@@ -1767,7 +506,8 @@ public partial class Skin
 				}
 			}
 		}
-		void AddSkinItem(ISkinItem skinItem2)
+
+		private void AddSkinItem(ISkinItem skinItem2)
 		{
 			ISkinItemGroup skinItemGroup2 = null;
 			if (groups.Count > 0)
@@ -1799,7 +539,8 @@ public partial class Skin
 				skin.idDictionary.Add(drawableSkinItem.ID, new WeakReference<ISkinItem>(skinItem2));
 			}
 		}
-		string ConvertTimerString(string timer)
+
+		private string ConvertTimerString(string timer)
 		{
 			if (timer.StartsWith("button_", StringComparison.Ordinal))
 			{
