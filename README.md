@@ -23,5 +23,6 @@ dotnet build src/mBMplay.csproj
 
 mBMplay는 misty.ls04의 저작물이며 mBMplay Licence v1.0을 따릅니다(비상업 이용 한정). 이 저장소의 수정본도 같은 라이선스로 배포합니다.
 
-- [license.txt](license.txt) — mBMplay Licence v1.0 전문
-- [license_library.txt](license_library.txt) — 포함된 라이브러리들의 라이선스
+- [license.txt](license.txt) — mBMplay Licence v1.0 전문 (원문, 일본어)
+- [license_ko.txt](license_ko.txt) — 한국어 참고 번역 (비공식, 원문이 우선)
+- [license_library.txt](license_library.txt) — 포함된 라이브러리들의 라이선스 (영어 원문)
